@@ -1,0 +1,1023 @@
+<!-- ... existing code ... -->
+    <title>Website Resmi Kelas X TKJ 1 - SMK Negeri 2 Cilaku</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts untuk nuansa Klasik & Retro Sekolah -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cinzel:wght@700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Special+Elite&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        creamBg: '#f8f4eb',
+                        paperBg: '#fbf8f1',
+                        navyClassic: '#1b2a4a',
+                        maroonClassic: '#6b1d1d',
+                        goldAccent: '#c59b27',
+                        chalkboard: '#2b3a2f',
+                        woodBorder: '#4a2e1b',
+                    },
+                    fontFamily: {
+                        serifClassic: ['Merriweather', 'Georgia', 'serif'],
+                        titleClassic: ['Cinzel', 'serif'],
+                        handwritten: ['Caveat', 'cursive'],
+                        typewriter: ['Special Elite', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Khusus Nuansa Vintage & Tekstur Klasik */
+        body {
+            background-color: #f8f4eb;
+            background-image: radial-gradient(#d3c7b2 0.75px, transparent 0.75px), radial-gradient(#d3c7b2 0.75px, #f8f4eb 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            color: #2c2520;
+            font-family: 'Merriweather', Georgia, serif;
+        }
+
+        /* Border Klasik Ornamen */
+        .classic-border {
+            border: 3px double #4a2e1b;
+            box-shadow: 4px 4px 0px #c59b27, 8px 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .chalkboard-box {
+            background-color: #243328;
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 8px 8px;
+            color: #e8efe9;
+            border: 8px solid #5c3a21;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 5px 5px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Efek Polaroid Foto */
+        .polaroid-card {
+            background: #ffffff;
+            padding: 12px 12px 25px 12px;
+            box-shadow: 3px 5px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .polaroid-card:hover {
+            transform: scale(1.03) rotate(0deg) !important;
+            box-shadow: 8px 12px 20px rgba(0,0,0,0.25);
+            z-index: 10;
+        }
+
+        /* Pin/Paku Jam Dinding & Foto */
+        .push-pin {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #e74c3c, #7b1113);
+            box-shadow: 2px 3px 5px rgba(0,0,0,0.4);
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+
+        /* Tab Aktif Klasik */
+        .tab-btn {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background-color: #1b2a4a !important;
+            color: #fbf8f1 !important;
+            border-bottom: 4px solid #c59b27 !important;
+            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Sertifikat / Frame Gaya Lama */
+        .paper-card {
+            background-color: #fbf8f1;
+            border: 1px solid #d8ccb6;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), inset 0 0 40px rgba(212, 195, 163, 0.2);
+        }
+
+        /* Modal Lightbox */
+        .modal-active {
+            display: flex !important;
+        }
+
+        object-cover {
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-maroonClassic selection:text-white">
+
+    <!-- ==========================================
+         1. BANNER / HEADER SPANDUK UTAMA KELAS
+    =========================================== -->
+    <header class="w-full bg-navyClassic text-creamBg pt-6 pb-8 border-b-8 border-woodBorder relative shadow-xl">
+        <div class="max-w-6xl mx-auto px-4">
+            <!-- Frame Luar Banner -->
+            <div class="border-2 border-goldAccent p-4 sm:p-6 rounded-sm relative bg-gradient-to-r from-navyClassic via-slate-900 to-navyClassic">
+                <!-- Ornamen Sudut Banner -->
+                <div class="absolute -top-3 -left-3 text-goldAccent text-2xl"><i class="fa-solid fa-square-plus"></i></div>
+                <div class="absolute -top-3 -right-3 text-goldAccent text-2xl"><i class="fa-solid fa-square-plus"></i></div>
+                <div class="absolute -bottom-3 -left-3 text-goldAccent text-2xl"><i class="fa-solid fa-square-plus"></i></div>
+                <div class="absolute -bottom-3 -right-3 text-goldAccent text-2xl"><i class="fa-solid fa-square-plus"></i></div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    
+                    <!-- Logo / Lambang Kelas -->
+                    <div class="flex-shrink-0 text-center">
+                        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-goldAccent bg-maroonClassic flex items-center justify-center shadow-lg relative mx-auto">
+                            <i class="fa-solid fa-laptop-code text-4xl sm:text-5xl text-goldAccent"></i>
+                            <span class="absolute -bottom-2 bg-goldAccent text-navyClassic font-titleClassic text-xs px-2 py-0.5 font-bold rounded">SMKDA</span>
+                        </div>
+                    </div>
+
+                    <!-- Judul & Motto -->
+                    <div class="text-center md:text-left flex-grow">
+                        <div class="inline-block bg-maroonClassic text-goldAccent font-typewriter text-xs uppercase px-3 py-1 rounded tracking-widest mb-2 border border-goldAccent">
+                            SMK NEGERI 2 CILAKU — THE CREATIVE SCHOOL
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-titleClassic font-bold tracking-wide text-white drop-shadow-md">
+                            X TKJ 1 COMMUNITY
+                        </h1>
+                        <p class="font-handwritten text-2xl sm:text-3xl text-goldAccent mt-1">
+                            "Teknik Komputer & Jaringan — Handal, Kreatif, Berkarakter"
+                        </p>
+                        <p class="font-serifClassic text-xs sm:text-sm text-slate-300 mt-2 max-w-2xl italic">
+                            Website resmi kelas X TKJ 1 SMK Negeri 2 Cilaku. Wadah informasi, jadwal pelajaran resmi, kegiatan, serta dokumentasi kenangan.
+                        </p>
+                    </div>
+
+                    <!-- Jam Dinding Real-time Retro -->
+                    <div class="flex-shrink-0 bg-paperBg text-navyClassic p-3 sm:p-4 rounded border-2 border-goldAccent text-center shadow-md w-full md:w-auto">
+                        <div class="text-xs font-typewriter uppercase tracking-wider text-maroonClassic font-bold border-b border-stone-300 pb-1 mb-1">
+                            <i class="fa-regular fa-clock mr-1"></i> Waktu & Tanggal
+                        </div>
+                        <div id="realtime-clock" class="text-xl sm:text-2xl font-typewriter font-bold text-navyClassic">
+                            00:00:00 WIB
+                        </div>
+                        <div id="realtime-date" class="text-xs font-serifClassic text-stone-600 mt-0.5">
+                            Senin, 1 Januari 2026
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         2. NAVIGASI TAB KLASIK
+    =========================================== -->
+    <nav class="bg-paperBg border-b-2 border-stone-400 sticky top-0 z-40 shadow-md">
+        <div class="max-w-6xl mx-auto px-2 sm:px-4">
+            <div class="flex flex-wrap justify-center md:justify-start gap-1 sm:gap-2 py-2">
+                <button onclick="switchTab('beranda')" id="btn-beranda" class="tab-btn active px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
+                    <i class="fa-solid fa-newspaper mr-1.5"></i>Beranda
+                </button>
+                <button onclick="switchTab('tentang')" id="btn-tentang" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
+                    <i class="fa-solid fa-landmark mr-1.5"></i>Tentang Kami
+                </button>
+                
+                <button onclick="switchTab('struktur')" id="btn-struktur" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
+                    <i class="fa-solid fa-sitemap mr-1.5"></i>Struktur Kelas
+                </button>
+
+                <button onclick="switchTab('member')" id="btn-member" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
+                    <i class="fa-solid fa-users mr-1.5"></i>Member Kelas
+                </button>
+
+                <button onclick="switchTab('jadwal')" id="btn-jadwal" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
+                    <i class="fa-solid fa-calendar-days mr-1.5"></i>Jadwal Mapel & Piket
+                </button>
+                <button onclick="switchTab('galeri')" id="btn-galeri" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
+                    <i class="fa-solid fa-camera-retro mr-1.5"></i>Galeri Kenangan
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         3. KONTEN UTAMA (ISI TAB)
+    =========================================== -->
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- ================= TAB 1: BERANDA ================= -->
+        <section id="tab-beranda" class="tab-content block space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Kolom Kiri: Papan Pengumuman Utama (Papan Tulis) -->
+                <div class="lg:col-span-2 chalkboard-box p-6 rounded-sm relative">
+                    <div class="flex items-center justify-between border-b-2 border-dashed border-stone-500 pb-3 mb-4">
+                        <h2 class="font-handwritten text-3xl text-yellow-200 tracking-wider">
+                            <i class="fa-solid fa-bullhorn mr-2"></i>Papan Pengumuman X TKJ 1
+                        </h2>
+                        <span class="text-xs font-typewriter text-stone-400">SMK Negeri 2 Cilaku</span>
+                    </div>
+
+                    <div class="space-y-6 font-handwritten text-2xl text-stone-100">
+                        <!-- Pengumuman 1 -->
+                        <div class="bg-black/20 p-4 rounded border-l-4 border-yellow-400">
+                            <div class="flex justify-between items-center text-sm font-typewriter text-yellow-300 mb-1">
+                                <span>[KONTROL] PRAKTIK PRODUKTIF TKJ</span>
+                                <span>RABU & SELASA</span>
+                            </div>
+                            <p class="text-stone-200 leading-relaxed">
+                                Belajar dengan serius untuk jam Produktif TKJ bersama Pak Rohimat, S.T. & Ibu Tutik Dariyanti, SST.
+                            </p>
+                        </div>
+
+                        <!-- Pengumuman 2 -->
+                        <div class="bg-black/20 p-4 rounded border-l-4 border-emerald-400">
+                            <div class="flex justify-between items-center text-sm font-typewriter text-emerald-300 mb-1">
+                                <span>AGENDA FRIDAY CLEAN-UP</span>
+                                <span>JUMAT (10.30 - 11.10)</span>
+                            </div>
+                            <p class="text-stone-200 leading-relaxed">
+                                Setiap hari Jumat sebelum istirahat Sholat Jumat, seluruh siswa X TKJ 1 wajib membersihkan area  kelas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Widget Ringkas & Sekilas Kata -->
+                <div class="space-y-6">
+                    
+                    <!-- Widget Wali Kelas Quote -->
+                    <div class="paper-card p-5 border-2 border-stone-400 relative">
+                        <div class="push-pin"></div>
+                        <h3 class="font-titleClassic text-lg text-maroonClassic font-bold mb-2 border-b border-stone-300 pb-1">
+                            <i class="fa-solid fa-quote-left mr-2"></i>Pesan Wali Kelas
+                        </h3>
+                        <p class="font-serifClassic text-xs italic text-stone-700 leading-relaxed mt-3">
+                            "Jangan lupa untuk membersihkan kelas dan selalu menjaga persaudaraan di X TKJ 1."
+                        </p>
+                        <div class="mt-4 text-right">
+                            <p class="font-bold text-xs text-navyClassic">Pembinaan Wali Kelas</p>
+                            <p class="text-[10px] text-stone-500">Setiap Senin Jam ke-1</p>
+                        </div>
+                    </div>
+
+                    <!-- Stat Kas Kelas & Agenda -->
+                    <div class="paper-card p-5 border-2 border-stone-400">
+                        <h3 class="font-titleClassic text-md text-navyClassic font-bold mb-3 border-b border-stone-300 pb-1">
+                            <i class="fa-solid fa-vault mr-2"></i>Informasi Singkat Kelas
+                        </h3>
+                        <ul class="space-y-2 text-xs font-serifClassic text-stone-700">
+                            <li class="flex justify-between items-center">
+                                <span><i class="fa-solid fa-school text-stone-500 mr-2"></i>Sekolah:</span>
+                                <span class="font-bold font-typewriter">SMKN 2 Cilaku</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span><i class="fa-solid fa-network-wired text-emerald-600 mr-2"></i>Jurusan:</span>
+                                <span class="font-bold font-typewriter text-emerald-700">Teknik Komputer Jaringan</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span><i class="fa-solid fa-list-check text-goldAccent mr-2"></i>Total Jam Mapel:</span>
+                                <span class="font-bold font-typewriter">10 Jam / Hari</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: TENTANG KAMI ================= -->
+        <section id="tab-tentang" class="tab-content hidden space-y-8">
+            <div class="paper-card p-6 sm:p-8 classic-border">
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <h2 class="font-titleClassic text-3xl text-navyClassic font-bold border-b-2 border-goldAccent inline-block pb-2">
+                        Profil X TKJ 1 SMKN 2 Cilaku
+                    </h2>
+                    <p class="font-serifClassic text-stone-600 text-sm mt-3">
+                        Mengenal lebih dekat identitas dan kekompakan keluarga besar X TKJ 1 SMKDA Cilaku.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <!-- Foto Kelas Mode Klasik -->
+                    <div class="polaroid-card rotate-1 mx-auto max-w-md">
+                        <div class="push-pin"></div>
+                        <img src="fotbar.jpeg" alt="Siswa TKJ Lab Komputer" class="w-full h-64 object-cover border border-stone-200">
+                        <p class="font-handwritten text-center text-xl text-stone-800 mt-3">Siswa X TKJ 1 SMKN 2 Cilaku</p>
+                    </div>
+
+                    <!-- Visi Misi -->
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-maroonClassic pl-4">
+                            <h3 class="font-titleClassic text-xl text-maroonClassic font-bold">VISI JURUSAN & KELAS</h3>
+                            <p class="font-serifClassic text-sm text-stone-700 mt-2 leading-relaxed">
+                                Menjadi siswa TKJ yang terampil dalam jaringan komputer, berpengetahuan luas dalam informatika, serta berkarakter akhlakul karimah.
+                            </p>
+                        </div>
+
+                        <div class="border-l-4 border-navyClassic pl-4">
+                            <h3 class="font-titleClassic text-xl text-navyClassic font-bold">MISI KELAS</h3>
+                            <ul class="list-disc list-inside font-serifClassic text-sm text-stone-700 mt-2 space-y-1">
+                                <li>Disiplin hadir tepat waktu di setiap jam pelajaran & apel/upacara.</li>
+                                <li>Aktif berkolaborasi dalam tugas Produktif TKJ & Informatika.</li>
+                                <li>Menjaga kebersihan lab komputer dan ruang kelas.</li>
+                                <li>Saling menghormati sesama teman dan bapak/ibu guru.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: STRUKTUR KELAS ================= -->
+        <section id="tab-struktur" class="tab-content hidden space-y-8">
+            <div class="text-center mb-6">
+                <h2 class="font-titleClassic text-3xl text-navyClassic font-bold">Struktur Organisasi Kelas X TKJ 1</h2>
+                <p class="font-serifClassic text-stone-600 text-sm mt-1">SMK Negeri 2 Cilaku - Tahun Ajaran Resmi</p>
+            </div>
+
+            <!-- Struktur Hirarki -->
+            <div class="space-y-8">
+                
+                <!-- Wali Kelas (Top) -->
+                <div class="flex justify-center my-4">
+                    <div class="polaroid-card text-center w-64 border-2 border-goldAccent p-4 bg-white shadow-md relative">
+                        <div class="push-pin"></div>
+                        <img src="walikelas.jpeg" alt="Wali Kelas" class="w-full h-48 object-cover rounded">
+                        <span class="bg-goldAccent text-navyClassic font-typewriter text-[10px] px-2 py-0.5 mt-2">WALI KELAS</span>
+                        <h4 class="font-serifClassic font-bold text-md text-navyClassic mt-1">yulkhaidir al-malibary</h4>
+                        <p class="font-handwritten text-lg text-stone-600">SMK Negeri 2 Cilaku</p>
+                    </div>
+                </div>
+
+                <!-- Ketua & Wakil -->
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="ketuakelas.jpeg" alt="Ketua Kelas" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">KETUA KELAS</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Akhsan bardan arroyan</h4>
+                    </div>
+
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="wakilketua.jpeg" alt="Wakil Ketua" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">WAKIL KETUA</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">zahra oktavia</h4>
+                    </div>
+                </div>
+
+                <!-- Sekretaris & Bendahara -->
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="sekre1.jpeg" alt="Sekretaris 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">SEKERTARIS 1</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">frilla maharani</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="sekre2.jpeg" alt="Sekretaris 2" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">SEKERTARIS 2</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Reni lestari</h4>
+                    </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="bendahara-1.jpeg" alt="Bendahara 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">BENDAHARA 1</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Adelia putri ramadani</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="bendahara-2.jpeg" alt="Bendahara 2" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">BENDAHARA 2</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Nazwa marlita</h4>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+         <!-- ================= TAB 5: MEMBER KELAS ================= -->
+        <section id="tab-member" class="tab-content hidden space-y-8">
+            <div class="text-center mb-6">
+                <h2 class="font-titleClassic text-3xl text-navyClassic font-bold">Member Kelas X TKJ 1</h2>
+                <p class="font-serifClassic text-stone-600 text-sm mt-1">SMK Negeri 2 Cilaku - Tahun Ajaran Resmi 2026/2029</p>
+            </div>
+
+            <!-- Struktur Hirarki -->
+            <div class="space-y-8">
+
+                <!-- Sekretaris & Bendahara -->
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="dedat.jpeg" alt="Sekretaris 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Ahmad Deedat</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="deri.jpeg" alt="Sekretaris 2" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Deri bachdim</h4>
+                    </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="rafi.jpeg" alt="Bendahara 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Rafi setiawan</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="silvi.jpeg" alt="Bendahara 2" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Silvi fauziah</h4>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="asila.jpeg" alt="Member" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">siti asyila</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="salsa.jpeg" alt="Member" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Salsa agustina</h4>
+                    </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="sukaesih.jpeg" alt="Member" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Sukaesih rahma</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="sani.jpeg" alt="Member" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Sani napisatu nazwa</h4>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="kahfi.jpeg" alt="Member" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Rayhan kahfi fadilah</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="putri.jpeg" alt="Member" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Putri ramadhani</h4>
+                    </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="aida.jpeg" alt="Member" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Aida nurlayla</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="desta.jpeg" alt="Member" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Desta</h4>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="handayani.jpeg" alt="Sekretaris 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Handayani</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="selpi.jpeg" alt="Sekretaris 2" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Selpiyana</h4>
+                    </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                 <div class="polaroid-card text-center w-56 -rotate-1">
+                    <img src="padilah.jpeg" alt="Bendahara 1" class="w-full h-40 object-cover mb-2">
+                    <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                    <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Siti padilah</h4>
+                 </div>
+                 <div class="polaroid-card text-center w-56 rotate-1">
+                    <img src="tanda-tanya.jpg" alt="Bendahara 2" class="w-full h-40 object-cover mb-2">
+                    <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                    <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Ramzi permana</h4>
+                </div>
+               </div>
+                </div>
+
+               <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="tanda-tanya.jpg" alt="Sekretaris 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">afifanur</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="tanda-tanya.jpg" alt="Sekretaris 2" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Bunga chairunnisa</h4>
+                    </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                 <div class="polaroid-card text-center w-56 -rotate-1">
+                    <img src="tanda-tanya.jpg" alt="Bendahara 1" class="w-full h-40 object-cover mb-2">
+                    <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                    <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">M razka al aziz</h4>
+                 </div>
+                 <div class="polaroid-card text-center w-56 rotate-1">
+                    <img src="tanda-tanya.jpg" alt="Bendahara 2" class="w-full h-40 object-cover mb-2">
+                    <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                    <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">lizia sahla nur hamidah</h4>
+                </div>
+               </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="tanda-tanya.jpg" alt="Sekretaris 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Erga fahreza</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="tanda-tanya.jpg" alt="Sekretaris 2" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">M zulfikar renaldy</h4>
+                    </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                 <div class="polaroid-card text-center w-56 -rotate-1">
+                    <img src="tanda-tanya.jpg" alt="Bendahara 1" class="w-full h-40 object-cover mb-2">
+                    <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                    <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">M razka al aziz</h4>
+                 </div>
+                 <div class="polaroid-card text-center w-56 rotate-1">
+                    <img src="tanda-tanya.jpg" alt="Bendahara 2" class="w-full h-40 object-cover mb-2">
+                    <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                    <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Ramzi permana</h4>
+                </div>
+               </div>
+                </div>
+
+<div class="flex flex-wrap justify-center gap-8">
+                    <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="tanda-tanya.jpg" alt="Sekretaris 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">M kevin muzaqi</h4>
+                    </div>
+                    <div class="polaroid-card text-center w-56 rotate-1">
+                        <img src="tanda-tanya.jpg" alt="Sekretaris 2" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">tasya diva rivianti</h4>
+                    </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                 <div class="polaroid-card text-center w-56 -rotate-1">
+                    <img src="tanda-tanya.jpg" alt="Bendahara 1" class="w-full h-40 object-cover mb-2">
+                    <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                    <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Rafa Nurrohmatulloh Atmaja</h4>
+                 </div>
+                 <div class="polaroid-card text-center w-56 rotate-1">
+                    <img src="tanda-tanya.jpg" alt="Bendahara 2" class="w-full h-40 object-cover mb-2">
+                    <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                    <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">Septian catur prasetya</h4>
+                </div>
+               </div>
+                </div>
+
+                 <div class="polaroid-card text-center w-56 -rotate-1">
+                        <img src="fakhri.jpg" alt="Sekretaris 1" class="w-full h-40 object-cover mb-2">
+                        <span class="bg-navyClassic text-white font-typewriter text-[10px] px-2 py-0.5 font-bold uppercase">MEMBER</span>
+                        <h4 class="font-serifClassic font-bold text-sm text-stone-800 mt-1">M FAKHRI ZAIDAN</h4>
+                    </div>
+
+            </div>
+        </section>
+
+        <!-- ================= TAB 5: JADWAL MAPEL & PIKET (DIUPDATE SESUAI RESMI) ================= -->
+        <section id="tab-jadwal" class="tab-content hidden space-y-8">
+            
+            <!-- TABEL JADWAL PELAJARAN RESMI X TKJ 1 -->
+            <div class="paper-card p-5 classic-border">
+                <div class="flex flex-col md:flex-row justify-between items-center border-b-2 border-goldAccent pb-3 mb-4">
+                    <div>
+                        <h3 class="font-titleClassic text-2xl text-navyClassic font-bold flex items-center">
+                            <i class="fa-solid fa-table-cells mr-2 text-maroonClassic"></i>JADWAL PELAJARAN RESMI X TKJ 1
+                        </h3>
+                        <p class="font-serifClassic text-xs text-stone-600">SMK Negeri 2 Cilaku (SMKDA) Timetables</p>
+                    </div>
+                    <span class="bg-maroonClassic text-goldAccent font-typewriter text-xs px-3 py-1 rounded mt-2 md:mt-0">
+                        Rilis Jadwal: 7/21/2026
+                    </span>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-serifClassic border-collapse border border-stone-400">
+                        <thead>
+                            <tr class="bg-navyClassic text-creamBg font-typewriter text-center">
+                                <th class="p-2 border border-stone-400">HARI</th>
+                                <th class="p-2 border border-stone-400">Jam 0<br><span class="text-[10px] text-goldAccent">06:30-07:10</span></th>
+                                <th class="p-2 border border-stone-400">Jam 1<br><span class="text-[10px] text-goldAccent">07:10-07:50</span></th>
+                                <th class="p-2 border border-stone-400">Jam 2<br><span class="text-[10px] text-goldAccent">07:50-08:30</span></th>
+                                <th class="p-2 border border-stone-400">Jam 3<br><span class="text-[10px] text-goldAccent">08:30-09:10</span></th>
+                                <th class="p-2 border border-stone-400">Jam 4<br><span class="text-[10px] text-goldAccent">09:10-09:50</span></th>
+                                <th class="p-1 bg-amber-800 border border-stone-400 text-[10px]">ISTIRAHAT 1<br>09:50-10:20</th>
+                                <th class="p-2 border border-stone-400">Jam 5<br><span class="text-[10px] text-goldAccent">10:20-11:00</span></th>
+                                <th class="p-2 border border-stone-400">Jam 6<br><span class="text-[10px] text-goldAccent">11:00-11:40</span></th>
+                                <th class="p-1 bg-amber-800 border border-stone-400 text-[10px]">ISTIRAHAT 2<br>11:40-12:20</th>
+                                <th class="p-2 border border-stone-400">Jam 7<br><span class="text-[10px] text-goldAccent">12:20-13:00</span></th>
+                                <th class="p-2 border border-stone-400">Jam 8<br><span class="text-[10px] text-goldAccent">13:00-13:40</span></th>
+                                <th class="p-2 border border-stone-400">Jam 9<br><span class="text-[10px] text-goldAccent">13:40-14:20</span></th>
+                                <th class="p-2 border border-stone-400">Jam 10<br><span class="text-[10px] text-goldAccent">14:20-15:00</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-stone-300 text-center">
+                            
+                            <!-- SENIN -->
+                            <tr class="hover:bg-amber-50">
+                                <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">SENIN</td>
+                                <td class="p-2 border border-stone-300 font-bold">Upacara</td>
+                                <td class="p-2 border border-stone-300 bg-amber-100/50">Pembinaan Wali Kelas</td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Seni Budaya</span>
+                                    <span class="text-[10px] text-stone-600 block">Dean Angga P, S.Sn</span>
+                                </td>
+                                <td class="p-2 border border-stone-300">
+                                    <span class="font-bold block">B. Inggris</span>
+                                    <span class="text-[10px] text-stone-600 block">Heni Nurhaeni, S.Pd.</span>
+                                </td>
+                                <td class="p-1 bg-stone-200 font-bold text-[10px] border border-stone-300">ISTIRAHAT</td>
+                                <td class="p-2 border border-stone-300">
+                                    <span class="font-bold block">B. Inggris</span>
+                                    <span class="text-[10px] text-stone-600 block">Heni Nurhaeni, S.Pd.</span>
+                                </td>
+                                <td class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Informatika</span>
+                                    <span class="text-[10px] text-stone-600 block">Siti Ade Amiati, S.Kom</span>
+                                </td>
+                                <td class="p-1 bg-stone-200 font-bold text-[10px] border border-stone-300">ISTIRAHAT</td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Informatika</span>
+                                    <span class="text-[10px] text-stone-600 block">Siti Ade Amiati, S.Kom</span>
+                                </td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">B. Indonesia</span>
+                                    <span class="text-[10px] text-stone-600 block">Meti Darmiati, S.Pd., M.Pd.</span>
+                                </td>
+                            </tr>
+
+                            <!-- SELASA -->
+                            <tr class="hover:bg-amber-50">
+                                <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">SELASA</td>
+                                <td class="p-2 border border-stone-300 font-bold">Sholat Dhuha</td>
+                                <td colspan="3" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Matematika</span>
+                                    <span class="text-[10px] text-stone-600 block">Yulkhaidir, S.Pd.</span>
+                                </td>
+                                <td class="p-2 border border-stone-300">
+                                    <span class="font-bold block">PJOK</span>
+                                    <span class="text-[10px] text-stone-600 block">Azil Madarta, S.Pd</span>
+                                </td>
+                                <td class="p-1 bg-stone-200 font-bold text-[10px] border border-stone-300">ISTIRAHAT</td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">PJOK</span>
+                                    <span class="text-[10px] text-stone-600 block">Azil Madarta, S.Pd</span>
+                                </td>
+                                <td class="p-1 bg-stone-200 font-bold text-[10px] border border-stone-300">ISTIRAHAT</td>
+                                <td colspan="4" class="p-2 border border-stone-300 bg-emerald-50">
+                                    <span class="font-bold block text-emerald-900">Produktif TKJ</span>
+                                    <span class="text-[10px] text-emerald-700 block">Rohimat, S.T.</span>
+                                </td>
+                            </tr>
+
+                            <!-- RABU -->
+                            <tr class="hover:bg-amber-50">
+                                <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">RABU</td>
+                                <td class="p-2 border border-stone-300 font-bold">Apel Pagi</td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Informatika</span>
+                                    <span class="text-[10px] text-stone-600 block">Siti Ade Amiati, S.Kom</span>
+                                </td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Pendidikan Pancasila</span>
+                                    <span class="text-[10px] text-stone-600 block">Destya R, S.Pd.</span>
+                                </td>
+                                <td class="p-1 bg-stone-200 font-bold text-[10px] border border-stone-300">ISTIRAHAT</td>
+                                <td colspan="2" class="p-2 border border-stone-300 bg-emerald-50">
+                                    <span class="font-bold block text-emerald-900">Produktif TKJ</span>
+                                    <span class="text-[10px] text-emerald-700 block">Tutik Dariyanti, SST</span>
+                                </td>
+                                <td class="p-1 bg-stone-200 font-bold text-[10px] border border-stone-300">ISTIRAHAT</td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Sejarah Indonesia</span>
+                                    <span class="text-[10px] text-stone-600 block">Reni N, S.H</span>
+                                </td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">IPAS</span>
+                                    <span class="text-[10px] text-stone-600 block">Yufi Kustiani, S.Pd</span>
+                                </td>
+                            </tr>
+
+                            <!-- KAMIS -->
+                            <tr class="hover:bg-amber-50">
+                                <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">KAMIS</td>
+                                <td colspan="3" class="p-2 border border-stone-300 font-bold bg-amber-50">Ahlakul Karimah</td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">B. Sunda</span>
+                                    <span class="text-[10px] text-stone-600 block">Daratul Laella, S.Pd</span>
+                                </td>
+                                <td class="p-1 bg-stone-200 font-bold text-[10px] border border-stone-300">ISTIRAHAT</td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">B. Inggris</span>
+                                    <span class="text-[10px] text-stone-600 block">Heni Nurhaeni, S.Pd.</span>
+                                </td>
+                                <td class="p-1 bg-stone-200 font-bold text-[10px] border border-stone-300">ISTIRAHAT</td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Informatika</span>
+                                    <span class="text-[10px] text-stone-600 block">Siti Ade Amiati, S.Kom</span>
+                                </td>
+                                <td colspan="2" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">Pendidikan Agama & Budi Pekerti</span>
+                                    <span class="text-[10px] text-stone-600 block">Roni Hoeron, S.Pd</span>
+                                </td>
+                            </tr>
+
+                            <!-- JUMAT -->
+                            <tr class="hover:bg-amber-50">
+                                <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">JUMAT</td>
+                                <td class="p-2 border border-stone-300 font-bold">Penguatan Karakter</td>
+                                <td colspan="3" class="p-2 border border-stone-300">
+                                    <span class="font-bold block">IPAS</span>
+                                    <span class="text-[10px] text-stone-600 block">Yufi Kustiani, S.Pd</span>
+                                </td>
+                                <td class="p-2 border border-stone-300 bg-emerald-50">
+                                    <span class="font-bold block text-emerald-900">Produktif TKJ</span>
+                                    <span class="text-[10px] text-emerald-700 block">Tutik Dariyanti, SST</span>
+                                </td>
+                                <td colspan="2" class="p-2 border border-stone-300 bg-emerald-50">
+                                    <span class="font-bold block text-emerald-900">Produktif TKJ</span>
+                                    <span class="text-[10px] text-emerald-700 block">Tutik Dariyanti, SST (09:10-10:30)</span>
+                                </td>
+                                <td class="p-2 border border-stone-300 bg-amber-200 font-bold text-[11px]">
+                                    Friday Clean-Up<br><span class="text-[9px] text-stone-700 font-normal">10:30-11:10</span>
+                                </td>
+                                <td class="p-1 bg-stone-300 font-bold text-[9px] border border-stone-300">
+                                    SHOLAT JUMAT<br>11:10-13:00
+                                </td>
+                                <td colspan="4" class="p-2 border border-stone-300 bg-indigo-50">
+                                    <span class="font-bold block text-indigo-900">Projek Kokurikuler</span>
+                                    <span class="text-[10px] text-indigo-700 block">13:00 - 15:00 (Jam 7-10)</span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Papan Jadwal Piket Kebersihan -->
+            <div class="chalkboard-box p-5 rounded-sm">
+                <h3 class="font-handwritten text-3xl text-yellow-300 mb-4 border-b border-dashed border-stone-500 pb-2">
+                    <i class="fa-solid fa-broom mr-2"></i>Piket Kebersihan Kelas X TKJ 1
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-handwritten text-xl text-stone-200">
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-yellow-400">
+                        <span class="text-yellow-400 font-bold block text-lg font-typewriter">SENIN</span>
+                        <p class="text-sm">Tim Piket Senin (SITI ASILA, MUHAMAD RAFI SETIAWAN, HANDAYANI,SELPIYANA, LIZIA SAHLA NUR , SANI NAPISATU , ADELIA PUTRI )</p>
+                    </div>
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-yellow-400">
+                        <span class="text-yellow-400 font-bold block text-lg font-typewriter">SELASA</span>
+                        <p class="text-sm">Tim Piket Selasa (MUHAMMAD ZULFIKAR, SITI PADILAH, M FAKHRI ZAIDAN, SUKAESIH RAHMA F, SILVI NURUL FAUZIAH, FRILLA MAHARANI, BUNGA CHAIRUNNISA)</p>
+                    </div>
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-yellow-400">
+                        <span class="text-yellow-400 font-bold block text-lg font-typewriter">RABU</span>
+                        <p class="text-sm">Tim Piket Rabu (ERGA FAHREZA , NAZWA MARLITA, SALSA AGUSTINA R, M RAZKA AL AZIZ, AFIFA NUR, MOH KEVIN MUZAQI, RAFA NURROHMATULLAH)</p>
+                    </div>
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-yellow-400">
+                        <span class="text-yellow-400 font-bold block text-lg font-typewriter">KAMIS</span>
+                        <p class="text-sm">Tim Piket Kamis (PUTRI RAHMADANI, AKHSAN BARDAN , SITI NURLAELA, RAYHAN KAHFI , AHMAD DEEDAT, RENY LESTARI , RAMZY PERMANA)</p>
+                    </div>
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-yellow-400 sm:col-span-2">
+                        <span class="text-yellow-400 font-bold block text-lg font-typewriter">JUMAT</span>
+                        <p class="text-sm">Tim Piket Jumat (DERI BACHDIM, AIDA NURLAILAH, TASYA DIVA RIVIASTI, ZAHRA OKTAPIA, DESTA, SEPTIAN CATUR, AFRIANSAH)</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 5: GALERI FOTO KEGIATAN ================= -->
+        <section id="tab-galeri" class="tab-content hidden space-y-6">
+            <div class="text-center mb-4">
+                <h2 class="font-titleClassic text-3xl text-navyClassic font-bold">Album Foto X TKJ 1</h2>
+                <p class="font-serifClassic text-stone-600 text-sm mt-1">Dokumentasi kenangan, dan kebersamaan di SMKN 2 Cilaku</p>
+            </div>
+
+            <!-- Filter Kategori Foto -->
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+                <button onclick="filterGallery('all')" class="gallery-filter-btn active font-typewriter text-xs px-3 py-1 bg-navyClassic text-white rounded">Semua Foto</button>
+                <button onclick="filterGallery('RANDOM')" class="gallery-filter-btn font-typewriter text-xs px-3 py-1 bg-stone-300 text-stone-800 rounded hover:bg-stone-400">RANDOM</button>
+                <button onclick="filterGallery('acara')" class="gallery-filter-btn font-typewriter text-xs px-3 py-1 bg-stone-300 text-stone-800 rounded hover:bg-stone-400">Kegiatan Sekolah</button>
+                <button onclick="filterGallery('santai')" class="gallery-filter-btn font-typewriter text-xs px-3 py-1 bg-stone-300 text-stone-800 rounded hover:bg-stone-400">Kebersamaan</button>
+            </div>
+
+            <!-- Grid Foto Polaroid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                
+                <!-- Foto 1 -->
+                <div class="gallery-item santai polaroid-card -rotate-1 cursor-pointer" onclick="openModal('Fotbar.jpeg', 'Foto saat perayaan hari SANTRI di SMKN 2 Cilaku')">
+                    <div class="push-pin"></div>
+                    <img src="fotbar.jpeg" class="w-full h-48 object-cover border border-stone-200">
+                    <p class="font-handwritten text-xl text-stone-800 text-center mt-3">Perayaan Hari SANTRI</p>
+                </div>
+
+                <!-- Foto 2 -->
+                <div class="gallery-item acara polaroid-card rotate-2 cursor-pointer" onclick="openModal('Foto1.jpeg', 'Foto saat perayaan hari SANTRI di SMKN 2 Cilaku')">
+                    <div class="push-pin"></div>
+                    <img src="Foto1.jpeg" class="w-full h-48 object-cover border border-stone-200">
+                    <p class="font-handwritten text-xl text-stone-800 text-center mt-3">Hari Santri SMKDA</p>
+                </div>
+
+                <!-- Foto 3 -->
+                <div class="gallery-item santai polaroid-card -rotate-2 cursor-pointer" onclick="openModal('eweuhan', 'eweuh dokumenan')">
+                    <div class="push-pin"></div>
+                    <img src="eweuhan" class="w-full h-48 object-cover border border-stone-200">
+                    <p class="font-handwritten text-xl text-stone-800 text-center mt-3">Istirahat Bersama di Kantin</p>
+                </div>
+
+                <!-- Foto 4 -->
+                <div class="gallery-item belajar polaroid-card rotate-1 cursor-pointer" onclick="openModal('eweuhan', 'eweuh dokumenan')">
+                    <div class="push-pin"></div>
+                    <img src="eweuhan" class="w-full h-48 object-cover border border-stone-200">
+                    <p class="font-handwritten text-xl text-stone-800 text-center mt-3">Pelajaran Produktif & Informatika</p>
+                </div>
+
+                <!-- Foto 5 -->
+                <div class="gallery-item acara polaroid-card -rotate-1 cursor-pointer" onclick="openModal('eweuhan', 'eweuh dokumenan')">
+                    <div class="push-pin"></div>
+                    <img src="eweuhan" class="w-full h-48 object-cover border border-stone-200">
+                    <p class="font-handwritten text-xl text-stone-800 text-center mt-3">Jam Olahraga / PJOK</p>
+                </div>
+
+                <!-- Foto 6 -->
+                <div class="gallery-item santai polaroid-card rotate-2 cursor-pointer" onclick="openModal('eweuhan', 'eweuh dokumenan')">
+                    <div class="push-pin"></div>
+                    <img src="eweuhan" class="w-full h-48 object-cover border border-stone-200">
+                    <p class="font-handwritten text-xl text-stone-800 text-center mt-3">Friday Clean-Up Bersama</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         4. MODAL LIGHTBOX FOTO (JAVASCRIPT)
+    =========================================== -->
+    <div id="photo-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="relative max-w-3xl w-full bg-paperBg p-4 rounded-sm classic-border">
+            <button onclick="closeModal()" class="absolute -top-4 -right-4 bg-maroonClassic text-white w-10 h-10 rounded-full font-bold text-lg border-2 border-goldAccent flex items-center justify-center shadow-lg hover:bg-red-900">
+                &times;
+            </button>
+            <img id="modal-img" src="" alt="Detail Foto" class="w-full max-h-[70vh] object-contain border border-stone-300">
+            <p id="modal-caption" class="font-handwritten text-2xl text-stone-800 text-center mt-3"></p>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         5. FOOTER KLASIK
+    =========================================== -->
+    <footer class="bg-navyClassic text-creamBg border-t-4 border-goldAccent py-6 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center font-serifClassic text-xs space-y-2">
+            <p class="font-titleClassic text-sm text-goldAccent">
+                X TKJ 1 &copy; SMK Negeri 2 Cilaku (SMKDA) - The Creative School
+            </p>
+            <p class="text-stone-400">
+                Dikelola oleh Komunitas Siswa X TKJ 1
+            </p>
+        </div>
+         <div class="max-w-6xl mx-auto px-4 text-left font-serifClassic text-xs space-y-2">
+            <p class="font-titleClassic text-sm text-goldAccent">
+                Kontak & Informasi
+            </p>
+            <p class="text-stone-400">
+                instagram: <a href="https://www.instagram.com/archive.xtkjone/" target="_blank" class="text-goldAccent hover:underline">@archive.xtkjone</a> | email: <a href="mailto:javkity@gmail.com" class="text-goldAccent hover:underline">javkity@gmail.com</a> | whatsapp: <a href="https://wa.me/6285782210602" target="_blank" class="text-goldAccent hover:underline">+62 85782210602</a>
+                
+
+                    </a>
+                </a>
+            </p>
+         </div>
+
+ <div class="max-w-6xl mx-auto px-4 text-right font-serifClassic text-xs space-y-2">
+            
+            <p class="text-stone-400">
+                <span class="font-bold">Created by:</span> M FAKHRI ZAIDAN |
+                 
+            </p>
+            <p class="text-stone-400">
+                 <span class="font-bold">the profesional Intelligence Agency</span> M FAKHRI ZAIDAN
+            </p>
+            <p class="text-stone-400">
+                 <span class="font-bold">the profesional Intelligence Agency</span> M FAKHRI ZAIDAN
+            </p>
+ </div>
+
+    </footer>
+
+    <!-- ==========================================
+         6. SCRIPT JAVASCRIPT INTERAKTIF
+    =========================================== -->
+    <script>
+        // 1. FUNGSI PERPINDAHAN TAB
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('bg-stone-200', 'text-stone-800');
+            });
+
+            const selectedTab = document.getElementById('tab-' + tabId);
+            if (selectedTab) {
+                selectedTab.classList.remove('hidden');
+            }
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        // 2. JAM DIGITAL & TANGGAL REALTIME
+        function updateClock() {
+            const now = new Date();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('realtime-clock').innerText = `${hours}:${minutes}:${seconds} WIB`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('id-ID', options);
+            document.getElementById('realtime-date').innerText = dateString;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 3. FILTER GALERI FOTO
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const filterBtns = document.querySelectorAll('.gallery-filter-btn');
+
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-navyClassic', 'text-white');
+                btn.classList.add('bg-stone-300', 'text-stone-800');
+            });
+            event.currentTarget.classList.remove('bg-stone-300', 'text-stone-800');
+            event.currentTarget.classList.add('bg-navyClassic', 'text-white');
+
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // 4. MODAL LIGHTBOX FOTO
+        function openModal(imgSrc, captionText) {
+            const modal = document.getElementById('photo-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalCaption = document.getElementById('modal-caption');
+
+            modalImg.src = imgSrc;
+            modalCaption.innerText = captionText;
+            modal.classList.add('modal-active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('photo-modal');
+            modal.classList.remove('modal-active');
+        }
+
+        document.getElementById('photo-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
