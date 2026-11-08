@@ -55,20 +55,29 @@
             </div>
 
             <!-- Form Input -->
-<form name="buku-tamu-tkj1" method="POST" data-netlify="true" class="space-y-4">
+<form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
     
-    <!-- Input nama, pesan, atau elemen lain yang sudah ada di dalam form -->
+    <!-- Ganti teks di bawah dengan Access Key yang dikirim ke email Anda -->
+    <input type="hidden" name="access_key" value="3c9dede4-0461-43f8-9efb-007afa3bfaa4">
+
     <div>
         <label class="block text-xs font-bold text-stone-700 mb-1 font-mono">NAMA PENGUNJUNG:</label>
-        <input type="text" name="nama" required class="w-full px-3 py-2 border border-stone-300 rounded text-sm bg-white focus:outline-none focus:border-navyClassic">
+        <input type="text" name="nama" required placeholder="Masukkan nama Anda..." class="w-full px-3 py-2 border border-stone-300 rounded text-sm bg-white focus:outline-none focus:border-[#1b2a4a]">
     </div>
 
     <div>
         <label class="block text-xs font-bold text-stone-700 mb-1 font-mono">PESAN / SARAN:</label>
-        <textarea name="pesan" rows="4" required class="w-full px-3 py-2 border border-stone-300 rounded text-sm bg-white focus:outline-none focus:border-navyClassic"></textarea>
+        <textarea name="pesan" rows="4" required placeholder="Tuliskan pesan atau saran di sini..." class="w-full px-3 py-2 border border-stone-300 rounded text-sm bg-white focus:outline-none focus:border-[#1b2a4a]"></textarea>
     </div>
 
-    <button type="submit" class="w-full bg-navyClassic text-creamBg py-2.5 rounded font-typewriter text-xs font-bold hover:bg-slate-800 transition">
+    <action="[https://api.web3forms.com/submit](https://api.web3forms.com/submit)">
+        
+    </action>
+
+    <!-- Pilihan Opsional: Redirect ke halaman sukses setelah pesan terkirim -->
+    <input type="hidden" name="redirect" value="https://web3forms.com/success">
+
+    <button type="submit" class="w-full bg-[#1b2a4a] text-[#f8f4eb] py-2.5 rounded font-bold text-xs hover:bg-slate-800 transition">
         Kirim Saran & Buku Tamu
     </button>
 </form>
@@ -77,13 +86,7 @@
                 <h3 class="text-md font-bold text-slate-900 mb-4 font-serif">Daftar Pesan Pengunjung</h3>
                 <div id="daftarPesan" class="space-y-3 max-h-96 overflow-y-auto pr-2">
                     <!-- Pesan Default -->
-                    <div class="bg-white p-4 rounded border border-stone-300 shadow-sm">
-                        <div class="flex justify-between items-center text-xs text-stone-500 font-mono mb-1">
-                            <span class="font-bold text-slate-900">Wali Kelas</span>
-                            <span>Sistem</span>
-                        </div>
-                        <p class="text-xs text-stone-700">Semangat terus belajarnya untuk siswa-siswi X TKJ 1!</p>
-                    </div>
+                    
                 </div>
             </div>
         </div>
