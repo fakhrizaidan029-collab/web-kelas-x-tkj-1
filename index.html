@@ -123,11 +123,85 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-maroonClassic selection:text-white">
 
+    <!-- ================= SIDEBAR KIRI (OFF-CANVAS / TOUCH TOGGLE) ================= -->
+
+<!-- Overlay Gelap (Menutup otomatis saat area luar disentuh/diklik) -->
+<div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm transition-opacity"></div>
+
+<!-- Bar Samping Utama (Hidden secara default di Desktop & HP, terbuka hanya saat di-click/touch) -->
+<!-- ================= SIDEBAR KIRI (OFF-CANVAS / TOUCH TOGGLE) ================= -->
+<div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm transition-opacity"></div>
+
+<aside id="sidebar-kiri" class="fixed top-0 left-0 h-full w-72 bg-slate-900 border-r-4 border-amber-600 text-amber-100 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between shadow-2xl">
+    
+    <div>
+        <!-- Header Sidebar -->
+        <div class="p-4 border-b border-stone-700 flex justify-between items-center bg-slate-950">
+            <div>
+                <h2 class="font-bold text-amber-400 text-lg font-mono tracking-wider">X TKJ 1</h2>
+                <p class="text-[10px] text-stone-400 font-mono">PANEL NAVIGASI KELAS</p>
+            </div>
+            <!-- Tombol Silang (Tutup Sidebar) -->
+            <button onclick="toggleSidebar()" class="text-stone-400 hover:text-amber-400 text-lg p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Menu Navigasi Samping (Diselaraskan dengan Tombol Tab Utama) -->
+        <nav class="p-4 space-y-2 font-mono text-xs overflow-y-auto max-h-[calc(100vh-180px)]">
+            <a href="#beranda" onclick="switchTab('beranda'); toggleSidebar();" class="flex items-center gap-3 px-3 py-2.5 rounded text-stone-300 hover:bg-stone-800 hover:text-amber-400 transition">
+                <i class="fa-solid fa-newspaper w-4 text-amber-500"></i> Beranda
+            </a>
+            <a href="#tentang" onclick="switchTab('tentang'); toggleSidebar();" class="flex items-center gap-3 px-3 py-2.5 rounded text-stone-300 hover:bg-stone-800 hover:text-amber-400 transition">
+                <i class="fa-solid fa-landmark w-4 text-amber-500"></i> Tentang Kami
+            </a>
+            <a href="#struktur" onclick="switchTab('struktur'); toggleSidebar();" class="flex items-center gap-3 px-3 py-2.5 rounded text-stone-300 hover:bg-stone-800 hover:text-amber-400 transition">
+                <i class="fa-solid fa-sitemap w-4 text-amber-500"></i> Struktur Kelas
+            </a>
+            <a href="#member" onclick="switchTab('member'); toggleSidebar();" class="flex items-center gap-3 px-3 py-2.5 rounded text-stone-300 hover:bg-stone-800 hover:text-amber-400 transition">
+                <i class="fa-solid fa-users w-4 text-amber-500"></i> Member Kelas
+            </a>
+            <a href="#jadwal" onclick="switchTab('jadwal'); toggleSidebar();" class="flex items-center gap-3 px-3 py-2.5 rounded text-stone-300 hover:bg-stone-800 hover:text-amber-400 transition">
+                <i class="fa-solid fa-calendar-days w-4 text-amber-500"></i> Jadwal Mapel & Piket
+            </a>
+            <a href="#galeri" onclick="switchTab('galeri'); toggleSidebar();" class="flex items-center gap-3 px-3 py-2.5 rounded text-stone-300 hover:bg-stone-800 hover:text-amber-400 transition">
+                <i class="fa-solid fa-camera-retro w-4 text-amber-500"></i> Galeri Kenangan
+            </a>
+            
+            <div class="border-t border-stone-700 my-2 pt-2"></div>
+
+            <!-- Tautan ke Halaman Khusus Buku Tamu / Kotak Saran -->
+            <a href="saran.html" class="flex items-center gap-3 px-3 py-2.5 rounded bg-amber-600 text-slate-950 font-bold shadow hover:bg-amber-500 transition">
+                <i class="fa-solid fa-comments w-4"></i> Buku Tamu & Saran
+            </a>
+        </nav>
+    </div>
+
+    <!-- Footer Sidebar -->
+    <div class="p-4 border-t border-stone-700 bg-slate-950 space-y-3">
+        <!-- Sakelar Theme Mode di Sidebar -->
+        <button onclick="toggleTheme()" class="w-full px-3 py-2 rounded border border-amber-600/50 bg-slate-900 text-amber-300 font-mono text-xs flex items-center justify-center gap-2 hover:bg-stone-800 transition">
+            <i class="fa-solid fa-moon"></i> <span>Mode Papan Tulis</span>
+        </button>
+
+        <div class="text-[10px] text-stone-500 text-center font-mono">
+            SMKN 2 Cilaku &bull; X TKJ 1
+        </div>
+    </div>
+</aside>
+
+<!-- Tombol Pemicu Buka Sidebar (Muncul Terus di Pojok Kiri Atas PC & HP) -->
+<button onclick="toggleSidebar()" class="fixed top-4 left-4 z-30 bg-slate-900 text-amber-400 p-2.5 rounded-md border border-amber-600 shadow-lg hover:bg-slate-800 focus:outline-none active:scale-95 transition">
+    <i class="fa-solid fa-bars text-lg"></i>
+</button>
+
+
     <!-- ==========================================
          1. BANNER / HEADER SPANDUK UTAMA KELAS
-    =========================================== -->
+         =========================================== -->
+
     <header class="w-full bg-navyClassic text-creamBg pt-6 pb-8 border-b-8 border-woodBorder relative shadow-xl">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="w-full px-4 md:px-8">
             <!-- Frame Luar Banner -->
             <div class="border-2 border-goldAccent p-4 sm:p-6 rounded-sm relative bg-gradient-to-r from-navyClassic via-slate-900 to-navyClassic">
                 <!-- Ornamen Sudut Banner -->
@@ -176,40 +250,17 @@
                     </div>
 
                 </div>
+
+<a href="saran.html" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300 inline-block">
+    <i class="fa-solid fa-comments mr-1.5"></i>Kotak Saran
+</a>
+
+                </div>
             </div>
         </div>
+
     </header>
 
-    <!-- ==========================================
-         2. NAVIGASI TAB KLASIK
-    =========================================== -->
-    <nav class="bg-paperBg border-b-2 border-stone-400 sticky top-0 z-40 shadow-md">
-        <div class="max-w-6xl mx-auto px-2 sm:px-4">
-            <div class="flex flex-wrap justify-center md:justify-start gap-1 sm:gap-2 py-2">
-                <button onclick="switchTab('beranda')" id="btn-beranda" class="tab-btn active px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
-                    <i class="fa-solid fa-newspaper mr-1.5"></i>Beranda
-                </button>
-                <button onclick="switchTab('tentang')" id="btn-tentang" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
-                    <i class="fa-solid fa-landmark mr-1.5"></i>Tentang Kami
-                </button>
-                
-                <button onclick="switchTab('struktur')" id="btn-struktur" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
-                    <i class="fa-solid fa-sitemap mr-1.5"></i>Struktur Kelas
-                </button>
-
-                <button onclick="switchTab('member')" id="btn-member" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
-                    <i class="fa-solid fa-users mr-1.5"></i>Member Kelas
-                </button>
-
-                <button onclick="switchTab('jadwal')" id="btn-jadwal" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
-                    <i class="fa-solid fa-calendar-days mr-1.5"></i>Jadwal Mapel & Piket
-                </button>
-                <button onclick="switchTab('galeri')" id="btn-galeri" class="tab-btn px-3 sm:px-5 py-2.5 rounded-t text-xs sm:text-sm bg-stone-200 text-stone-800 border border-stone-400 hover:bg-stone-300">
-                    <i class="fa-solid fa-camera-retro mr-1.5"></i>Galeri Kenangan
-                </button>
-            </div>
-        </div>
-    </nav>
 
     <!-- ==========================================
          3. KONTEN UTAMA (ISI TAB)
@@ -657,7 +708,7 @@
                         <tbody class="divide-y divide-stone-300 text-center">
                             
                             <!-- SENIN -->
-                            <tr class="hover:bg-amber-50">
+                            <tr id="row-senin"  class="hover:bg-amber-50">
                                 <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">SENIN</td>
                                 <td class="p-2 border border-stone-300 font-bold">Upacara</td>
                                 <td class="p-2 border border-stone-300 bg-amber-100/50">Pembinaan Wali Kelas</td>
@@ -690,7 +741,7 @@
                             </tr>
 
                             <!-- SELASA -->
-                            <tr class="hover:bg-amber-50">
+                            <tr id="row-selasa" class="hover:bg-amber-50">
                                 <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">SELASA</td>
                                 <td class="p-2 border border-stone-300 font-bold">Sholat Dhuha</td>
                                 <td colspan="3" class="p-2 border border-stone-300">
@@ -714,7 +765,7 @@
                             </tr>
 
                             <!-- RABU -->
-                            <tr class="hover:bg-amber-50">
+                            <tr id="row-rabu" class="hover:bg-amber-50">
                                 <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">RABU</td>
                                 <td class="p-2 border border-stone-300 font-bold">Apel Pagi</td>
                                 <td colspan="2" class="p-2 border border-stone-300">
@@ -742,7 +793,7 @@
                             </tr>
 
                             <!-- KAMIS -->
-                            <tr class="hover:bg-amber-50">
+                            <tr id="row-kamis" class="hover:bg-amber-50">
                                 <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">KAMIS</td>
                                 <td colspan="3" class="p-2 border border-stone-300 font-bold bg-amber-50">Ahlakul Karimah</td>
                                 <td colspan="2" class="p-2 border border-stone-300">
@@ -766,7 +817,7 @@
                             </tr>
 
                             <!-- JUMAT -->
-                            <tr class="hover:bg-amber-50">
+                            <tr id="row-jumat" class="hover:bg-amber-50">
                                 <td class="p-2 font-bold text-maroonClassic bg-stone-100 border border-stone-300">JUMAT</td>
                                 <td class="p-2 border border-stone-300 font-bold">Penguatan Karakter</td>
                                 <td colspan="3" class="p-2 border border-stone-300">
@@ -945,9 +996,10 @@
             <p class="text-stone-400">
                  <span class="font-bold">the profesional Intelligence Agency</span> M FAKHRI ZAIDAN
             </p>
- </div>
+  </div>
 
     </footer>
+ 
 
     <!-- ==========================================
          6. SCRIPT JAVASCRIPT INTERAKTIF
@@ -1058,6 +1110,92 @@
             }
         }
     });
+}
+
+// Fungsi untuk Mengubah Tema (Dark / Light Mode Klasik)
+function toggleTheme() {
+    const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+
+    // Cek apakah saat ini menggunakan mode terang (kertas)
+    if (body.classList.contains('dark-chalk-mode')) {
+        // Kembalikan ke mode kertas klasik
+        body.classList.remove('dark-chalk-mode');
+        body.style.backgroundColor = '#f8f4eb';
+        body.style.backgroundImage = 'radial-gradient(#d3c7b2 0.75px, transparent 0.75px), radial-gradient(#d3c7b2 0.75px, #f8f4eb 0.75px)';
+        body.style.color = '#2c2520';
+        
+        themeIcon.className = "fa-solid fa-moon";
+        themeText.innerText = "Mode gelap";
+    } else {
+        // Ubah ke mode papan tulis gelap ala terminal
+        body.classList.add('dark-chalk-mode');
+        body.style.backgroundColor = '#1a221c';
+        body.style.backgroundImage = 'radial-gradient(rgba(255,255,255,0.05) 1px, transparent 0)';
+        body.style.color = '#e8efe9';
+        
+        themeIcon.className = "fa-solid fa-sun";
+        themeText.innerText = "Mode Terang";
+    }
+}
+
+// Fungsi untuk Highlight Jadwal Berdasarkan Hari Real-time
+function highlightJadwalHariIni() {
+    const now = new Date();
+    const hariIndeks = now.getDay(); // 0 = Minggu, 1 = Senin, ..., 5 = Jumat, 6 = Sabtu
+
+    // Petunjuk pemetaan indeks hari ke ID baris HTML
+    const mapHari = {
+        1: 'row-senin',
+        2: 'row-selasa',
+        3: 'row-rabu',
+        4: 'row-kamis',
+        5: 'row-jumat'
+    };
+
+    // Bersihkan semua highlight sebelumnya
+    Object.values(mapHari).forEach(id => {
+        const row = document.getElementById(id);
+        if (row) {
+            row.classList.remove('bg-yellow-100', 'border-l-4', 'border-l-maroonClassic', 'shadow-inner');
+        }
+    });
+
+    // Jika hari ini Senin - Jumat, beri tanda highlight
+    if (mapHari[hariIndeks]) {
+        const rowHariIni = document.getElementById(mapHari[hariIndeks]);
+        if (rowHariIni) {
+            rowHariIni.classList.add('bg-yellow-100', 'border-l-4', 'border-l-maroonClassic', 'shadow-inner');
+            
+            // Tambahkan label kecil penanda "Hari Ini" di kolom nama hari
+            const kolomHari = rowHariIni.querySelector('td');
+            if (kolomHari && !kolomHari.querySelector('.badge-hari')) {
+                const badge = document.createElement('span');
+                badge.className = "badge-hari block text-[9px] bg-maroonClassic text-goldAccent font-typewriter uppercase mt-0.5 px-1 rounded";
+                badge.innerText = "★ Hari Ini";
+                kolomHari.appendChild(badge);
+            }
+        }
+    }
+}
+
+// Jalankan fungsi saat halaman dimuat
+window.addEventListener('DOMContentLoaded', highlightJadwalHariIni);
+
+// Fungsi Buka / Tutup Sidebar Kiri di HP & Laptop
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar-kiri');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    // Toggle class translate-x
+    if (sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+    } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    }
 }
     </script>
 </body>

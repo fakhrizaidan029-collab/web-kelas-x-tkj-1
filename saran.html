@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Tamu & Kotak Saran - X TKJ 1</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cinzel:wght@700&family=Merriweather:ital,wght@0,300;0,400;0,700&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f8f4eb;
+            background-image: radial-gradient(#d3c7b2 0.75px, transparent 0.75px), radial-gradient(#d3c7b2 0.75px, #f8f4eb 0.75px);
+            background-size: 30px 30px;
+            color: #2c2520;
+            font-family: 'Merriweather', Georgia, serif;
+        }
+        .classic-border {
+            border: 3px double #4a2e1b;
+            box-shadow: 4px 4px 0px #c59b27, 8px 8px 15px rgba(0,0,0,0.1);
+        }
+        .paper-card {
+            background-color: #fbf8f1;
+            border: 1px solid #d8ccb6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Header Sederhana -->
+    <header class="bg-slate-900 text-amber-100 py-6 border-b-4 border-amber-600 shadow-md">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold font-serif">X TKJ 1 COMMUNITY</h1>
+                <p class="text-xs text-amber-400 font-mono">Buku Tamu & Kotak Saran Digital</p>
+            </div>
+            <!-- Tombol Kembali ke Beranda -->
+            <a href="index.html" class="bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded text-xs hover:bg-amber-500 transition">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Web Utama
+            </a>
+        </div>
+    </header>
+
+    <!-- Konten Utama Buku Tamu -->
+    <main class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
+        <div class="paper-card p-6 classic-border rounded-sm">
+            <div class="border-b-2 border-amber-600 pb-3 mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center">
+                    <i class="fa-solid fa-comments mr-2 text-red-800"></i>Kirim Pesan & Kesan
+                </h2>
+                <p class="text-xs text-stone-600 mt-1">Tinggalkan pesan, apresiasi, atau saran untuk seluruh siswa X TKJ 1 SMKN 2 Cilaku.</p>
+            </div>
+
+            <!-- Form Input -->
+<form name="buku-tamu-tkj1" method="POST" data-netlify="true" class="space-y-4">
+    
+    <!-- Input nama, pesan, atau elemen lain yang sudah ada di dalam form -->
+    <div>
+        <label class="block text-xs font-bold text-stone-700 mb-1 font-mono">NAMA PENGUNJUNG:</label>
+        <input type="text" name="nama" required class="w-full px-3 py-2 border border-stone-300 rounded text-sm bg-white focus:outline-none focus:border-navyClassic">
+    </div>
+
+    <div>
+        <label class="block text-xs font-bold text-stone-700 mb-1 font-mono">PESAN / SARAN:</label>
+        <textarea name="pesan" rows="4" required class="w-full px-3 py-2 border border-stone-300 rounded text-sm bg-white focus:outline-none focus:border-navyClassic"></textarea>
+    </div>
+
+    <button type="submit" class="w-full bg-navyClassic text-creamBg py-2.5 rounded font-typewriter text-xs font-bold hover:bg-slate-800 transition">
+        Kirim Saran & Buku Tamu
+    </button>
+</form>
+            <!-- Daftar Pesan Masuk -->
+            <div class="border-t border-stone-300 pt-6">
+                <h3 class="text-md font-bold text-slate-900 mb-4 font-serif">Daftar Pesan Pengunjung</h3>
+                <div id="daftarPesan" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                    <!-- Pesan Default -->
+                    <div class="bg-white p-4 rounded border border-stone-300 shadow-sm">
+                        <div class="flex justify-between items-center text-xs text-stone-500 font-mono mb-1">
+                            <span class="font-bold text-slate-900">Wali Kelas</span>
+                            <span>Sistem</span>
+                        </div>
+                        <p class="text-xs text-stone-700">Semangat terus belajarnya untuk siswa-siswi X TKJ 1!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 text-stone-400 text-center py-4 text-xs">
+        &copy; X TKJ 1 SMKN 2 Cilaku - Kotak Saran Digital
+    </footer>
+
+    <!-- Panggil File JS Terpisah -->
+    <script src="saran.js"></script>
+</body>
+</html>
