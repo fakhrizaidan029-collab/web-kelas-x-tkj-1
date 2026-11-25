@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KasKelas Transparan - Manajemen Keuangan Kelas</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Print Styles for Transparency Report */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .shadow-sm, .shadow-md, .shadow-lg {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-800">
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-opacity duration-300">
+        <div class="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-4"></div>
+        <p class="text-slate-600 font-medium text-sm animate-pulse">Memuat Data Kas Kelas...</p>
+    </div>
+
+    <!-- Custom Toast Notification -->
+    <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full px-4 sm:px-0 pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Brand -->
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-sm">
+                        <i data-lucide="wallet" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg text-slate-900 leading-tight flex items-center gap-2">
+                            <span id="headerClassName">Kas Kelas XII IPA 1</span>
+                            <span id="roleBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                                Mode Publik (Lihat)
+                            </span>
+                        </h1>
+                        <p class="text-xs text-slate-500 hidden sm:block">Laporan Keuangan Terbuka & Transparan</p>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Export & Print -->
+                    <button onclick="exportToCSV()" class="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors" title="Unduh CSV">
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500"></i>
+                        <span class="hidden md:inline">Ekspor CSV</span>
+                    </button>
+                    <button onclick="window.print()" class="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors" title="Cetak Laporan">
+                        <i data-lucide="printer" class="w-4 h-4 text-slate-500"></i>
+                        <span class="hidden md:inline">Cetak</span>
+                    </button>
+
+                    <!-- Mode Toggle Button -->
+                    <button id="toggleAdminBtn" onclick="handleRoleToggle()" class="flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 shadow-sm transition-all">
+                        <i data-lucide="lock" id="toggleAdminIcon" class="w-4 h-4"></i>
+                        <span id="toggleAdminText">Mode Bendahara</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Print Header (Only visible when printing) -->
+    <div class="hidden print-only max-w-7xl mx-auto px-6 pt-6 pb-4 border-b-2 border-slate-800 mb-6">
+        <div class="flex justify-between items-end">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900" id="printClassName">LAPORAN KEUANGAN KAS KELAS</h1>
+                <p class="text-sm text-slate-600">Dokumen Transparansi Keuangan Kelas</p>
+            </div>
+            <div class="text-right text-xs text-slate-500">
+                <p>Dicetak pada: <span id="printDate"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- Admin Banner (Visible only in Admin Mode) -->
+        <div id="adminBanner" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 no-print">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-100 text-indigo-700 rounded-lg">
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="text-sm font-semibold text-indigo-950">Mode Bendahara Aktif</h2>
+                    <p class="text-xs text-indigo-700">Anda memiliki akses penuh untuk mencatat transaksi, mengedit checklist kas siswa, dan mengatur informasi kelas.</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <button onclick="openSettingsModal()" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white text-indigo-700 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition">
+                    <i data-lucide="settings" class="w-3.5 h-3.5"></i> Pengaturan Kelas & PIN
+                </button>
+                <button onclick="seedSampleData()" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-slate-50 transition">
+                    <i data-lucide="database" class="w-3.5 h-3.5"></i> Isi Data Contoh
+                </button>
+            </div>
+        </div>
+
+        <!-- Financial Summary Cards -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Saldo Saat Ini -->
+            <div class="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-2xl p-5 text-white shadow-md relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-indigo-100 text-xs font-medium uppercase tracking-wider">Total Saldo Kas</span>
+                        <div class="p-1.5 bg-white/15 rounded-lg">
+                            <i data-lucide="landmark" class="w-4 h-4 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-bold tracking-tight mb-1" id="statBalance">Rp 0</div>
+                    <p class="text-xs text-indigo-200 flex items-center gap-1">
+                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Dana tersedia saat ini
+                    </p>
+                </div>
+                <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-white/10 rounded-full blur-xl"></div>
+            </div>
+
+            <!-- Total Pemasukan -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Total Pemasukan</span>
+                    <div class="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
+                        <i data-lucide="trending-up" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-bold text-slate-900 mb-1" id="statIncome">Rp 0</div>
+                <p class="text-xs text-emerald-600 font-medium" id="statIncomeCount">0 transaksi masuk</p>
+            </div>
+
+            <!-- Total Pengeluaran -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Total Pengeluaran</span>
+                    <div class="p-1.5 bg-rose-50 text-rose-600 rounded-lg">
+                        <i data-lucide="trending-down" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-bold text-slate-900 mb-1" id="statExpense">Rp 0</div>
+                <p class="text-xs text-rose-600 font-medium" id="statExpenseCount">0 transaksi keluar</p>
+            </div>
+
+            <!-- Visualisasi Rasio Keuangan -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Rasio Arus Kas</span>
+                    <span class="text-xs font-semibold text-indigo-600" id="statRatioText">0% Terpakai</span>
+                </div>
+                <div class="space-y-2 my-auto">
+                    <!-- Progress Bar -->
+                    <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
+                        <div id="barRemaining" class="bg-emerald-500 h-full transition-all duration-500" style="width: 100%" title="Sisa Saldo"></div>
+                        <div id="barExpense" class="bg-rose-500 h-full transition-all duration-500" style="width: 0%" title="Pengeluaran"></div>
+                    </div>
+                    <div class="flex justify-between text-[11px] text-slate-500 font-medium">
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Tersisa</span>
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Terpakai</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Tabs -->
+        <div class="border-b border-slate-200 flex items-center justify-between flex-wrap gap-2 no-print">
+            <nav class="flex space-x-2" aria-label="Tabs">
+                <button onclick="switchTab('transactions')" id="tab-transactions" class="tab-btn border-b-2 border-indigo-600 text-indigo-600 py-3 px-4 text-sm font-semibold flex items-center gap-2 transition-colors">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>Buku Kas & Transaksi</span>
+                </button>
+                <button onclick="switchTab('students')" id="tab-students" class="tab-btn border-b-2 border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 py-3 px-4 text-sm font-semibold flex items-center gap-2 transition-colors">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                    <span>Iuran & Data Siswa</span>
+                    <span id="studentCountBadge" class="ml-1 bg-slate-100 text-slate-600 py-0.5 px-2 rounded-full text-xs">0</span>
+                </button>
+            </nav>
+
+            <!-- Quick Add Buttons (Admin Only) -->
+            <div id="quickAddControls" class="hidden flex items-center gap-2 py-2">
+                <button onclick="openTransactionModal()" id="btnAddTransaction" class="flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold rounded-lg shadow-sm transition">
+                    <i data-lucide="plus" class="w-4 h-4"></i> Catat Transaksi
+                </button>
+                <button onclick="openStudentModal()" id="btnAddStudent" class="hidden flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-lg shadow-sm transition">
+                    <i data-lucide="user-plus" class="w-4 h-4"></i> Tambah Siswa
+                </button>
+            </div>
+        </div>
+
+        <!-- TAB 1: BUKU KAS & RIWAYAT TRANSAKSI -->
+        <section id="view-transactions" class="space-y-4">
+            <!-- Filter & Search Bar -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-3 justify-between items-center no-print">
+                <div class="relative w-full md:w-80">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="searchTransaction" oninput="renderTransactions()" placeholder="Cari keterangan, kategori, PJ..." class="w-full pl-9 pr-4 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                </div>
+                <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                    <select id="filterType" onchange="renderTransactions()" class="px-3 py-2 text-sm border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 outline-none flex-1 md:flex-none">
+                        <option value="all">Semua Jenis</option>
+                        <option value="income">Pemasukan (+)</option>
+                        <option value="expense">Pengeluaran (-)</option>
+                    </select>
+                    <select id="filterCategory" onchange="renderTransactions()" class="px-3 py-2 text-sm border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 outline-none flex-1 md:flex-none">
+                        <option value="all">Semua Kategori</option>
+                        <option value="Iuran Rutin">Iuran Rutin</option>
+                        <option value="Sumbangan / Lainnya">Sumbangan / Lainnya</option>
+                        <option value="Perlengkapan Kelas">Perlengkapan Kelas</option>
+                        <option value="Acara / Kegiatan">Acara / Kegiatan</option>
+                        <option value="Sosial / Jenguk">Sosial / Jenguk</option>
+                        <option value="Fotokopi / Print">Fotokopi / Print</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Transactions Table -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                <th class="py-3.5 px-4">Tanggal</th>
+                                <th class="py-3.5 px-4">Keterangan Detail</th>
+                                <th class="py-3.5 px-4">Kategori</th>
+                                <th class="py-3.5 px-4">PJ / Bukti</th>
+                                <th class="py-3.5 px-4 text-right">Pemasukan</th>
+                                <th class="py-3.5 px-4 text-right">Pengeluaran</th>
+                                <th class="py-3.5 px-4 text-right">Saldo Berjalan</th>
+                                <th class="py-3.5 px-4 text-center admin-col hidden no-print">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTableBody" class="divide-y divide-slate-100 text-sm">
+                            <!-- Rows injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Empty State -->
+                <div id="emptyTransactions" class="hidden py-12 text-center px-4">
+                    <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-sm font-semibold text-slate-800">Belum Ada Catatan Transaksi</h3>
+                    <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Data transaksi pemasukan maupun pengeluaran kelas akan muncul secara transparan di sini.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: MANAJEMEN DATA SISWA & CHECKLIST PEMBAYARAN -->
+        <section id="view-students" class="hidden space-y-4">
+            <!-- Info & Filter Bar -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-3 justify-between items-center no-print">
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <div class="relative flex-1 md:w-72">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="searchStudent" oninput="renderStudents()" placeholder="Cari nama atau nomor absen..." class="w-full pl-9 pr-4 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600 w-full md:w-auto justify-between md:justify-end">
+                    <div class="bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-lg font-medium border border-indigo-100">
+                        Nominal Kas: <span id="displayFeeRate" class="font-bold">Rp 5.000</span> / Minggu
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span> Lunas</span>
+                        <span class="inline-flex items-center gap-1"><span class="w-3 h-3 rounded border border-slate-300 bg-slate-50 inline-block"></span> Belum</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Checklist Table -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                <th class="py-3.5 px-4 w-16 text-center">No</th>
+                                <th class="py-3.5 px-4 min-w-[180px]">Nama Siswa</th>
+                                <th class="py-3.5 px-2 text-center">M1</th>
+                                <th class="py-3.5 px-2 text-center">M2</th>
+                                <th class="py-3.5 px-2 text-center">M3</th>
+                                <th class="py-3.5 px-2 text-center">M4</th>
+                                <th class="py-3.5 px-2 text-center">M5</th>
+                                <th class="py-3.5 px-2 text-center">M6</th>
+                                <th class="py-3.5 px-2 text-center">M7</th>
+                                <th class="py-3.5 px-2 text-center">M8</th>
+                                <th class="py-3.5 px-4 text-right">Total Setor</th>
+                                <th class="py-3.5 px-4 text-center admin-col hidden no-print">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody" class="divide-y divide-slate-100 text-sm">
+                            <!-- Rows injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Empty State -->
+                <div id="emptyStudents" class="hidden py-12 text-center px-4">
+                    <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-sm font-semibold text-slate-800">Belum Ada Data Siswa</h3>
+                    <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Aktifkan Mode Bendahara untuk menambahkan daftar anggota kelas dan memantau pembayaran kas mingguan.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-xs text-slate-400 border-t border-slate-200 mt-8 no-print">
+        <p>Sistem Informasi Kas Kelas Transparan &bull; Data tersimpan otomatis & real-time di Cloud.</p>
+    </footer>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- 1. Modal Login PIN Bendahara -->
+    <div id="pinModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                        <i data-lucide="key-round" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900">Akses Mode Bendahara</h3>
+                </div>
+                <button onclick="closeModal('pinModal')" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-600 mb-4">Masukkan PIN Bendahara untuk mengaktifkan fitur tambah, edit, dan hapus data kas kelas.</p>
+            
+            <div class="bg-amber-50 border border-amber-200 rounded-lg p-2.5 mb-4 flex items-center gap-2 text-xs text-amber-800">
+                <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0"></i>
+                <span>Petunjuk PIN Default: <strong class="font-mono bg-amber-100 px-1.5 py-0.5 rounded">1234</strong></span>
+            </div>
+
+            <form onsubmit="verifyPin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">PIN Bendahara</label>
+                    <input type="password" id="pinInput" maxlength="8" required placeholder="••••" class="w-full px-4 py-2.5 text-center text-lg tracking-widest font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="closeModal('pinModal')" class="flex-1 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
+                    <button type="submit" class="flex-1 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition">Buka Akses</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. Modal Tambah / Edit Transaksi -->
+    <div id="transactionModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg text-slate-900" id="txModalTitle">Catat Transaksi Baru</h3>
+                <button onclick="closeModal('transactionModal')" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <form onsubmit="saveTransaction(event)" class="space-y-4">
+                <input type="hidden" id="txId">
+                
+                <!-- Jenis Transaksi -->
+                <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="txType" value="income" checked class="peer sr-only">
+                        <div class="text-center py-2 text-xs font-semibold rounded-lg text-slate-600 peer-checked:bg-emerald-600 peer-checked:text-white transition">
+                            + Pemasukan
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="txType" value="expense" class="peer sr-only">
+                        <div class="text-center py-2 text-xs font-semibold rounded-lg text-slate-600 peer-checked:bg-rose-600 peer-checked:text-white transition">
+                            - Pengeluaran
+                        </div>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal</label>
+                        <input type="date" id="txDate" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nominal (Rp)</label>
+                        <input type="number" id="txAmount" min="100" step="100" required placeholder="Contoh: 50000" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kategori</label>
+                    <select id="txCategory" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <option value="Iuran Rutin">Iuran Rutin</option>
+                        <option value="Sumbangan / Lainnya">Sumbangan / Lainnya</option>
+                        <option value="Perlengkapan Kelas">Perlengkapan Kelas (Sapu, Spidol, dll)</option>
+                        <option value="Acara / Kegiatan">Acara / Kegiatan Kelas</option>
+                        <option value="Sosial / Jenguk">Sosial / Jenguk Teman Sakit</option>
+                        <option value="Fotokopi / Print">Fotokopi / Print Materi</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Keterangan Detail</label>
+                    <input type="text" id="txDescription" required placeholder="Contoh: Beli 2 spidol boardmarker & penghapus" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Penanggung Jawab / No. Nota (Opsional)</label>
+                    <input type="text" id="txPic" placeholder="Contoh: Budi (Nota #012)" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+
+                <div class="flex gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeModal('transactionModal')" class="flex-1 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
+                    <button type="submit" class="flex-1 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition">Simpan Transaksi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Modal Tambah / Edit Siswa -->
+    <div id="studentModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg text-slate-900" id="studentModalTitle">Tambah Anggota Kelas</h3>
+                <button onclick="closeModal('studentModal')" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <form onsubmit="saveStudent(event)" class="space-y-4">
+                <input type="hidden" id="studentDocId">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor Absen</label>
+                    <input type="number" id="studentAbsen" min="1" max="100" required placeholder="Contoh: 1" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap Siswa</label>
+                    <input type="text" id="studentName" required placeholder="Contoh: Ahmad Fauzan" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div class="flex gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeModal('studentModal')" class="flex-1 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
+                    <button type="submit" class="flex-1 py-2.5 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm transition">Simpan Siswa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. Modal Pengaturan Kelas & PIN -->
+    <div id="settingsModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg text-slate-900">Pengaturan Kas Kelas</h3>
+                <button onclick="closeModal('settingsModal')" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <form onsubmit="saveSettings(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Kelas / Organisasi</label>
+                    <input type="text" id="settingClassName" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nominal Iuran Kas per Minggu (Rp)</label>
+                    <input type="number" id="settingWeeklyFee" min="500" step="500" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Ubah PIN Bendahara (4-8 Digit)</label>
+                    <input type="text" id="settingPin" minlength="4" maxlength="8" required class="w-full px-3 py-2 text-sm font-mono border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div class="flex gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeModal('settingsModal')" class="flex-1 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
+                    <button type="submit" class="flex-1 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition">Simpan Pengaturan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 5. Modal Konfirmasi Hapus (Custom Confirm pengganti window.confirm) -->
+    <div id="confirmDeleteModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100 text-center">
+            <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="trash-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 text-lg mb-1">Konfirmasi Hapus</h3>
+            <p class="text-xs text-slate-600 mb-5" id="confirmDeleteText">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="flex gap-2">
+                <button onclick="closeModal('confirmDeleteModal')" class="flex-1 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
+                <button id="confirmDeleteBtn" class="flex-1 py-2.5 text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl shadow-sm transition">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase & Application Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Configuration & Initialization
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-kas-kelas';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+
+        let app, auth, db, currentUser = null;
+        let isAdmin = false;
+        let activeTab = 'transactions';
+
+        // Application State
+        let appSettings = {
+            className: 'Kas Kelas XII IPA 1',
+            weeklyFee: 5000,
+            pin: '1234'
+        };
+        let transactions = [];
+        let students = [];
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        document.getElementById('printDate').textContent = new Date().toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        // Helper: Format Rupiah
+        window.formatRupiah = (number) => {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number || 0);
+        };
+
+        // Helper: Toast Notification
+        window.showToast = (message, type = 'success') => {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const bgClass = type === 'error' ? 'bg-rose-600' : (type === 'info' ? 'bg-slate-800' : 'bg-emerald-600');
+            const iconName = type === 'error' ? 'alert-circle' : (type === 'info' ? 'info' : 'check-circle');
+            
+            toast.className = `${bgClass} text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-2.5 text-xs font-medium pointer-events-auto transform transition-all duration-300 translate-y-2 opacity-0`;
+            toast.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            lucide.createIcons({ root: toast });
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+
+        // Initialize Firebase & Auth
+        async function initApp() {
+            if (!firebaseConfig) {
+                showToast('Konfigurasi Firebase tidak ditemukan.', 'error');
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                return;
+            }
+
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // RULE 3: Auth Before Queries
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                    if (user) {
+                        setupRealtimeListeners();
+                    }
+                });
+            } catch (error) {
+                console.error("Init error:", error);
+                showToast("Gagal menghubungkan ke server database.", "error");
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }
+        }
+
+        // Setup Firestore Realtime Listeners (RULE 1 & RULE 2 Compliant)
+        function setupRealtimeListeners() {
+            if (!currentUser) return;
+
+            // 1. Settings Listener
+            const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'general');
+            onSnapshot(settingsRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    appSettings = { ...appSettings, ...docSnap.data() };
+                } else {
+                    // Initialize default settings if not exists
+                    setDoc(settingsRef, appSettings).catch(console.error);
+                }
+                updateSettingsUI();
+                renderStudents(); // Re-render student totals based on weeklyFee
+            }, (error) => {
+                console.error("Settings listener error:", error);
+            });
+
+            // 2. Transactions Listener (No orderBy in query -> sort in JS)
+            const txColRef = collection(db, 'artifacts', appId, 'public', 'data', 'transactions');
+            onSnapshot(txColRef, (snapshot) => {
+                transactions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                renderDashboardAndTransactions();
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, (error) => {
+                console.error("Transactions listener error:", error);
+                showToast("Gagal memuat data transaksi.", "error");
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            });
+
+            // 3. Students Listener
+            const studentsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
+            onSnapshot(studentsColRef, (snapshot) => {
+                students = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                // Sort by absen ascending in JS
+                students.sort((a, b) => (Number(a.absen) || 0) - (Number(b.absen) || 0));
+                document.getElementById('studentCountBadge').textContent = students.length;
+                renderStudents();
+            }, (error) => {
+                console.error("Students listener error:", error);
+                showToast("Gagal memuat data siswa.", "error");
+            });
+        }
+
+        // Update UI elements tied to settings
+        function updateSettingsUI() {
+            document.getElementById('headerClassName').textContent = appSettings.className;
+            document.getElementById('printClassName').textContent = `LAPORAN KEUANGAN - ${appSettings.className.toUpperCase()}`;
+            document.getElementById('displayFeeRate').textContent = formatRupiah(appSettings.weeklyFee);
+        }
+
+        // Calculate Running Balance & Render Transactions
+        window.renderDashboardAndTransactions = () => {
+            // Sort chronological (oldest first) to compute accurate running balance
+            const chronological = [...transactions].sort((a, b) => {
+                if (a.date !== b.date) return a.date.localeCompare(b.date);
+                return (a.createdAt || 0) - (b.createdAt || 0);
+            });
+
+            let runningBalance = 0;
+            let totalIncome = 0;
+            let totalExpense = 0;
+            let incomeCount = 0;
+            let expenseCount = 0;
+
+            const enriched = chronological.map(tx => {
+                const amt = Number(tx.amount) || 0;
+                if (tx.type === 'income') {
+                    runningBalance += amt;
+                    totalIncome += amt;
+                    incomeCount++;
+                } else {
+                    runningBalance -= amt;
+                    totalExpense += amt;
+                    expenseCount++;
+                }
+                return { ...tx, runningBalance };
+            });
+
+            // Update Dashboard Cards
+            document.getElementById('statBalance').textContent = formatRupiah(runningBalance);
+            document.getElementById('statIncome').textContent = formatRupiah(totalIncome);
+            document.getElementById('statIncomeCount').textContent = `${incomeCount} transaksi masuk`;
+            document.getElementById('statExpense').textContent = formatRupiah(totalExpense);
+            document.getElementById('statExpenseCount').textContent = `${expenseCount} transaksi keluar`;
+
+            // Update Ratio Bar
+            if (totalIncome > 0) {
+                const expensePct = Math.min(100, Math.round((totalExpense / totalIncome) * 100));
+                const remainingPct = Math.max(0, 100 - expensePct);
+                document.getElementById('statRatioText').textContent = `${expensePct}% Terpakai`;
+                document.getElementById('barRemaining').style.width = `${remainingPct}%`;
+                document.getElementById('barExpense').style.width = `${expensePct}%`;
+            } else {
+                document.getElementById('statRatioText').textContent = totalExpense > 0 ? '100% Terpakai' : '0% Terpakai';
+                document.getElementById('barRemaining').style.width = totalExpense > 0 ? '0%' : '100%';
+                document.getElementById('barExpense').style.width = totalExpense > 0 ? '100%' : '0%';
+            }
+
+            // Reverse for display (newest first)
+            window._enrichedTransactions = enriched.reverse();
+            renderTransactions();
+        };
+
+        window.renderTransactions = () => {
+            const list = window._enrichedTransactions || [];
+            const search = document.getElementById('searchTransaction').value.toLowerCase();
+            const typeFilter = document.getElementById('filterType').value;
+            const catFilter = document.getElementById('filterCategory').value;
+
+            const filtered = list.filter(tx => {
+                const matchSearch = (tx.description || '').toLowerCase().includes(search) ||
+                                    (tx.category || '').toLowerCase().includes(search) ||
+                                    (tx.pic || '').toLowerCase().includes(search);
+                const matchType = typeFilter === 'all' || tx.type === typeFilter;
+                const matchCat = catFilter === 'all' || tx.category === catFilter;
+                return matchSearch && matchType && matchCat;
+            });
+
+            const tbody = document.getElementById('transactionsTableBody');
+            const emptyState = document.getElementById('emptyTransactions');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            tbody.innerHTML = filtered.map(tx => {
+                const formattedDate = new Date(tx.date).toLocaleDateString('id-ID', {
+                    day: '2-digit', month: 'short', year: 'numeric'
+                });
+                const isInc = tx.type === 'income';
+                const catBadgeColor = isInc ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+
+                return `
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                        <td class="py-3.5 px-4 whitespace-nowrap text-xs font-medium text-slate-600">${formattedDate}</td>
+                        <td class="py-3.5 px-4 font-medium text-slate-900 min-w-[200px]">${escapeHTML(tx.description)}</td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <span class="text-[11px] font-medium px-2.5 py-1 rounded-full border ${catBadgeColor}">
+                                ${escapeHTML(tx.category)}
+                            </span>
+                        </td>
+                        <td class="py-3.5 px-4 text-xs text-slate-500 whitespace-nowrap">${tx.pic ? escapeHTML(tx.pic) : '-'}</td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap font-semibold text-emerald-600">
+                            ${isInc ? formatRupiah(tx.amount) : '-'}
+                        </td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap font-semibold text-rose-600">
+                            ${!isInc ? formatRupiah(tx.amount) : '-'}
+                        </td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap font-bold text-slate-800 bg-slate-50/50">
+                            ${formatRupiah(tx.runningBalance)}
+                        </td>
+                        <td class="py-3.5 px-4 text-center whitespace-nowrap admin-col ${isAdmin ? '' : 'hidden'} no-print">
+                            <div class="inline-flex items-center gap-1">
+                                <button onclick="editTransaction('${tx.id}')" class="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition" title="Edit">
+                                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="confirmDelete('transaction', '${tx.id}')" class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            lucide.createIcons({ root: tbody });
+        };
+
+        // Render Students & Weekly Payment Checklist
+        window.renderStudents = () => {
+            const search = document.getElementById('searchStudent').value.toLowerCase();
+            const filtered = students.filter(s => 
+                (s.name || '').toLowerCase().includes(search) || 
+                String(s.absen).includes(search)
+            );
+
+            const tbody = document.getElementById('studentsTableBody');
+            const emptyState = document.getElementById('emptyStudents');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            const weeks = ['w1', 'w2', 'w3', 'w4', 'w5', 'w6', 'w7', 'w8'];
+
+            tbody.innerHTML = filtered.map(student => {
+                const payments = student.payments || {};
+                let paidWeeksCount = 0;
+
+                const checkboxesHtml = weeks.map(w => {
+                    const isPaid = !!payments[w];
+                    if (isPaid) paidWeeksCount++;
+
+                    if (isAdmin) {
+                        return `
+                            <td class="py-3 px-2 text-center">
+                                <button onclick="toggleStudentPayment('${student.id}', '${w}')" 
+                                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center transition-all ${isPaid ? 'bg-emerald-500 text-white shadow-xs hover:bg-emerald-600' : 'bg-slate-100 text-slate-300 border border-slate-300 hover:border-indigo-400'}"
+                                    title="${isPaid ? 'Sudah Bayar (Klik untuk batalkan)' : 'Belum Bayar (Klik untuk tandai lunas)'}">
+                                    <i data-lucide="check" class="w-4 h-4 ${isPaid ? 'opacity-100' : 'opacity-0'}"></i>
+                                </button>
+                            </td>
+                        `;
+                    } else {
+                        return `
+                            <td class="py-3 px-2 text-center">
+                                <span class="w-6 h-6 rounded-md inline-flex items-center justify-center ${isPaid ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-300'}">
+                                    ${isPaid ? '<i data-lucide="check" class="w-3.5 h-3.5"></i>' : '<span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>'}
+                                </span>
+                            </td>
+                        `;
+                    }
+                }).join('');
+
+                const totalPaid = paidWeeksCount * (Number(appSettings.weeklyFee) || 5000);
+
+                return `
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                        <td class="py-3 px-4 text-center font-semibold text-slate-500 text-xs">${student.absen}</td>
+                        <td class="py-3 px-4 font-medium text-slate-900">${escapeHTML(student.name)}</td>
+                        ${checkboxesHtml}
+                        <td class="py-3 px-4 text-right font-bold text-emerald-700 whitespace-nowrap">${formatRupiah(totalPaid)}</td>
+                        <td class="py-3 px-4 text-center whitespace-nowrap admin-col ${isAdmin ? '' : 'hidden'} no-print">
+                            <div class="inline-flex items-center gap-1">
+                                <button onclick="editStudent('${student.id}')" class="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition" title="Edit Siswa">
+                                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="confirmDelete('student', '${student.id}')" class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus Siswa">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            lucide.createIcons({ root: tbody });
+        };
+
+        // ==================== ROLE & NAVIGATION LOGIC ====================
+
+        window.handleRoleToggle = () => {
+            if (isAdmin) {
+                // Switch back to Public Mode
+                setAdminMode(false);
+                showToast('Beralih ke Mode Publik (Tampilan Baca Saja)', 'info');
+            } else {
+                // Open PIN Modal
+                document.getElementById('pinInput').value = '';
+                openModal('pinModal');
+                setTimeout(() => document.getElementById('pinInput').focus(), 100);
+            }
+        };
+
+        window.verifyPin = (e) => {
+            e.preventDefault();
+            const entered = document.getElementById('pinInput').value;
+            if (entered === String(appSettings.pin)) {
+                closeModal('pinModal');
+                setAdminMode(true);
+                showToast('Berhasil masuk ke Mode Bendahara!', 'success');
+            } else {
+                showToast('PIN salah! Silakan coba lagi.', 'error');
+                document.getElementById('pinInput').value = '';
+                document.getElementById('pinInput').focus();
+            }
+        };
+
+        function setAdminMode(status) {
+            isAdmin = status;
+            const roleBadge = document.getElementById('roleBadge');
+            const toggleBtn = document.getElementById('toggleAdminBtn');
+            const toggleIcon = document.getElementById('toggleAdminIcon');
+            const toggleText = document.getElementById('toggleAdminText');
+            const adminBanner = document.getElementById('adminBanner');
+            const quickAddControls = document.getElementById('quickAddControls');
+
+            if (isAdmin) {
+                roleBadge.textContent = 'Mode Bendahara (Edit)';
+                roleBadge.className = 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 border border-indigo-200';
+                toggleBtn.className = 'flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-700 bg-slate-100 border border-slate-300 rounded-lg hover:bg-slate-200 transition-all';
+                toggleIcon.setAttribute('data-lucide', 'unlock');
+                toggleText.textContent = 'Keluar Bendahara';
+                adminBanner.classList.remove('hidden');
+                quickAddControls.classList.remove('hidden');
+            } else {
+                roleBadge.textContent = 'Mode Publik (Lihat)';
+                roleBadge.className = 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200';
+                toggleBtn.className = 'flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 shadow-sm transition-all';
+                toggleIcon.setAttribute('data-lucide', 'lock');
+                toggleText.textContent = 'Mode Bendahara';
+                adminBanner.classList.add('hidden');
+                quickAddControls.classList.add('hidden');
+            }
+
+            // Show/Hide Admin Columns
+            document.querySelectorAll('.admin-col').forEach(el => {
+                if (isAdmin) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+
+            lucide.createIcons();
+            renderTransactions();
+            renderStudents();
+        }
+
+        window.switchTab = (tabName) => {
+            activeTab = tabName;
+            const txView = document.getElementById('view-transactions');
+            const stView = document.getElementById('view-students');
+            const txTab = document.getElementById('tab-transactions');
+            const stTab = document.getElementById('tab-students');
+            const btnAddTx = document.getElementById('btnAddTransaction');
+            const btnAddSt = document.getElementById('btnAddStudent');
+
+            if (tabName === 'transactions') {
+                txView.classList.remove('hidden');
+                stView.classList.add('hidden');
+                txTab.className = 'tab-btn border-b-2 border-indigo-600 text-indigo-600 py-3 px-4 text-sm font-semibold flex items-center gap-2 transition-colors';
+                stTab.className = 'tab-btn border-b-2 border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 py-3 px-4 text-sm font-semibold flex items-center gap-2 transition-colors';
+                btnAddTx.classList.remove('hidden');
+                btnAddSt.classList.add('hidden');
+            } else {
+                txView.classList.add('hidden');
+                stView.classList.remove('hidden');
+                stTab.className = 'tab-btn border-b-2 border-indigo-600 text-indigo-600 py-3 px-4 text-sm font-semibold flex items-center gap-2 transition-colors';
+                txTab.className = 'tab-btn border-b-2 border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 py-3 px-4 text-sm font-semibold flex items-center gap-2 transition-colors';
+                btnAddTx.classList.add('hidden');
+                btnAddSt.classList.remove('hidden');
+            }
+        };
+
+        // ==================== CRUD OPERATIONS (FIRESTORE) ====================
+
+        // 1. Transactions CRUD
+        window.openTransactionModal = () => {
+            if (!isAdmin) return;
+            document.getElementById('txModalTitle').textContent = 'Catat Transaksi Baru';
+            document.getElementById('txId').value = '';
+            document.querySelector('input[name="txType"][value="income"]').checked = true;
+            document.getElementById('txDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('txAmount').value = '';
+            document.getElementById('txCategory').value = 'Iuran Rutin';
+            document.getElementById('txDescription').value = '';
+            document.getElementById('txPic').value = '';
+            openModal('transactionModal');
+        };
+
+        window.editTransaction = (id) => {
+            if (!isAdmin) return;
+            const tx = transactions.find(t => t.id === id);
+            if (!tx) return;
+
+            document.getElementById('txModalTitle').textContent = 'Edit Transaksi';
+            document.getElementById('txId').value = tx.id;
+            document.querySelector(`input[name="txType"][value="${tx.type}"]`).checked = true;
+            document.getElementById('txDate').value = tx.date;
+            document.getElementById('txAmount').value = tx.amount;
+            document.getElementById('txCategory').value = tx.category;
+            document.getElementById('txDescription').value = tx.description;
+            document.getElementById('txPic').value = tx.pic || '';
+            openModal('transactionModal');
+        };
+
+        window.saveTransaction = async (e) => {
+            e.preventDefault();
+            if (!isAdmin || !currentUser) return;
+
+            const id = document.getElementById('txId').value;
+            const payload = {
+                type: document.querySelector('input[name="txType"]:checked').value,
+                date: document.getElementById('txDate').value,
+                amount: Number(document.getElementById('txAmount').value),
+                category: document.getElementById('txCategory').value,
+                description: document.getElementById('txDescription').value.trim(),
+                pic: document.getElementById('txPic').value.trim()
+            };
+
+            try {
+                if (id) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id);
+                    await updateDoc(docRef, payload);
+                    showToast('Transaksi berhasil diperbarui!');
+                } else {
+                    payload.createdAt = Date.now();
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'transactions');
+                    await addDoc(colRef, payload);
+                    showToast('Transaksi baru berhasil dicatat!');
+                }
+                closeModal('transactionModal');
+            } catch (err) {
+                console.error("Save tx error:", err);
+                showToast('Gagal menyimpan transaksi.', 'error');
+            }
+        };
+
+        // 2. Students CRUD & Payment Checklist
+        window.openStudentModal = () => {
+            if (!isAdmin) return;
+            document.getElementById('studentModalTitle').textContent = 'Tambah Anggota Kelas';
+            document.getElementById('studentDocId').value = '';
+            document.getElementById('studentAbsen').value = students.length + 1;
+            document.getElementById('studentName').value = '';
+            openModal('studentModal');
+        };
+
+        window.editStudent = (id) => {
+            if (!isAdmin) return;
+            const st = students.find(s => s.id === id);
+            if (!st) return;
+
+            document.getElementById('studentModalTitle').textContent = 'Edit Data Siswa';
+            document.getElementById('studentDocId').value = st.id;
+            document.getElementById('studentAbsen').value = st.absen;
+            document.getElementById('studentName').value = st.name;
+            openModal('studentModal');
+        };
+
+        window.saveStudent = async (e) => {
+            e.preventDefault();
+            if (!isAdmin || !currentUser) return;
+
+            const id = document.getElementById('studentDocId').value;
+            const payload = {
+                absen: Number(document.getElementById('studentAbsen').value),
+                name: document.getElementById('studentName').value.trim()
+            };
+
+            try {
+                if (id) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'students', id);
+                    await updateDoc(docRef, payload);
+                    showToast('Data siswa diperbarui!');
+                } else {
+                    payload.payments = {};
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'students');
+                    await addDoc(colRef, payload);
+                    showToast('Siswa baru ditambahkan!');
+                }
+                closeModal('studentModal');
+            } catch (err) {
+                console.error("Save student error:", err);
+                showToast('Gagal menyimpan data siswa.', 'error');
+            }
+        };
+
+        window.toggleStudentPayment = async (studentId, weekKey) => {
+            if (!isAdmin || !currentUser) return;
+            const student = students.find(s => s.id === studentId);
+            if (!student) return;
+
+            const currentPayments = { ...(student.payments || {}) };
+            const newStatus = !currentPayments[weekKey];
+            currentPayments[weekKey] = newStatus;
+
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'students', studentId);
+                await updateDoc(docRef, { payments: currentPayments });
+
+                // Optional: Automatically record income in transaction ledger when checked!
+                if (newStatus) {
+                    const weekNum = weekKey.replace('w', '');
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'transactions');
+                    await addDoc(colRef, {
+                        type: 'income',
+                        date: new Date().toISOString().split('T')[0],
+                        amount: Number(appSettings.weeklyFee) || 5000,
+                        category: 'Iuran Rutin',
+                        description: `Kas Mingguan (M${weekNum}) - ${student.name}`,
+                        pic: 'Bendahara',
+                        createdAt: Date.now()
+                    });
+                    showToast(`Kas M${weekNum} ${student.name} lunas & otomatis masuk Buku Kas!`);
+                } else {
+                    showToast(`Status M${weekKey.replace('w', '')} ${student.name} dibatalkan.`, 'info');
+                }
+            } catch (err) {
+                console.error("Toggle payment error:", err);
+                showToast('Gagal memperbarui status pembayaran.', 'error');
+            }
+        };
+
+        // 3. Delete Confirmation & Execution
+        window.confirmDelete = (type, id) => {
+            if (!isAdmin) return;
+            const textEl = document.getElementById('confirmDeleteText');
+            const btnEl = document.getElementById('confirmDeleteBtn');
+
+            textEl.textContent = type === 'transaction' 
+                ? 'Yakin ingin menghapus catatan transaksi ini? Saldo berjalan akan dihitung ulang otomatis.'
+                : 'Yakin ingin menghapus data siswa ini beserta riwayat checklist pembayarannya?';
+
+            btnEl.onclick = async () => {
+                try {
+                    const colName = type === 'transaction' ? 'transactions' : 'students';
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', colName, id));
+                    closeModal('confirmDeleteModal');
+                    showToast('Data berhasil dihapus!', 'info');
+                } catch (err) {
+                    console.error("Delete error:", err);
+                    showToast('Gagal menghapus data.', 'error');
+                }
+            };
+
+            openModal('confirmDeleteModal');
+        };
+
+        // 4. Settings Update
+        window.openSettingsModal = () => {
+            if (!isAdmin) return;
+            document.getElementById('settingClassName').value = appSettings.className;
+            document.getElementById('settingWeeklyFee').value = appSettings.weeklyFee;
+            document.getElementById('settingPin').value = appSettings.pin;
+            openModal('settingsModal');
+        };
+
+        window.saveSettings = async (e) => {
+            e.preventDefault();
+            if (!isAdmin || !currentUser) return;
+
+            const updated = {
+                className: document.getElementById('settingClassName').value.trim(),
+                weeklyFee: Number(document.getElementById('settingWeeklyFee').value),
+                pin: document.getElementById('settingPin').value.trim()
+            };
+
+            try {
+                const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'general');
+                await setDoc(settingsRef, updated);
+                closeModal('settingsModal');
+                showToast('Pengaturan kelas berhasil disimpan!');
+            } catch (err) {
+                console.error("Save settings error:", err);
+                showToast('Gagal menyimpan pengaturan.', 'error');
+            }
+        };
+
+        // 5. Seed Sample Data (Helper for quick demo)
+        window.seedSampleData = async () => {
+            if (!isAdmin || !currentUser) return;
+            showToast('Mengisi data contoh...', 'info');
+
+            try {
+                const txCol = collection(db, 'artifacts', appId, 'public', 'data', 'transactions');
+                const stCol = collection(db, 'artifacts', appId, 'public', 'data', 'students');
+
+                const today = new Date().toISOString().split('T')[0];
+                const sampleTxs = [
+                    { type: 'income', date: today, amount: 150000, category: 'Iuran Rutin', description: 'Setoran Kolektif Kas Minggu ke-1 (30 Siswa)', pic: 'Siti (Bendahara)', createdAt: Date.now() - 3000 },
+                    { type: 'expense', date: today, amount: 24000, category: 'Perlengkapan Kelas', description: 'Beli 2 Spidol Snowman Hitam & 1 Penghapus Papan', pic: 'Rizky (Nota #001)', createdAt: Date.now() - 2000 },
+                    { type: 'expense', date: today, amount: 35000, category: 'Sosial / Jenguk', description: 'Bingkisan Buah Jenguk Andi Sakit', pic: 'Putri (Nota #002)', createdAt: Date.now() - 1000 }
+                ];
+
+                for (const t of sampleTxs) {
+                    await addDoc(txCol, t);
+                }
+
+                if (students.length === 0) {
+                    const sampleStudents = [
+                        { absen: 1, name: 'Ahmad Fauzan', payments: { w1: true, w2: true } },
+                        { absen: 2, name: 'Aisyah Putri', payments: { w1: true, w2: true, w3: true } },
+                        { absen: 3, name: 'Budi Santoso', payments: { w1: true } },
+                        { absen: 4, name: 'Citra Lestari', payments: { w1: true, w2: true } },
+                        { absen: 5, name: 'Dimas Pratama', payments: {} }
+                    ];
+                    for (const s of sampleStudents) {
+                        await addDoc(stCol, s);
+                    }
+                }
+
+                showToast('Data contoh berhasil ditambahkan!');
+            } catch (err) {
+                console.error("Seed error:", err);
+                showToast('Gagal mengisi data contoh.', 'error');
+            }
+        };
+
+        // 6. Export CSV Function
+        window.exportToCSV = () => {
+            const list = window._enrichedTransactions || [];
+            if (list.length === 0) {
+                showToast('Tidak ada data transaksi untuk diekspor.', 'error');
+                return;
+            }
+
+            const headers = ['Tanggal', 'Keterangan Detail', 'Kategori', 'Penanggung Jawab', 'Pemasukan (Rp)', 'Pengeluaran (Rp)', 'Saldo Berjalan (Rp)'];
+            const rows = list.map(tx => [
+                tx.date,
+                `"${(tx.description || '').replace(/"/g, '""')}"`,
+                `"${(tx.category || '').replace(/"/g, '""')}"`,
+                `"${(tx.pic || '-').replace(/"/g, '""')}"`,
+                tx.type === 'income' ? tx.amount : 0,
+                tx.type === 'expense' ? tx.amount : 0,
+                tx.runningBalance
+            ]);
+
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Laporan_Kas_${appSettings.className.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('File CSV laporan kas berhasil diunduh!');
+        };
+
+        // Modal Helpers & Security Escaping
+        window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
+        window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag]));
+        }
+
+        // Start App
+        initApp();
+    </script>
+</body>
+</html>
